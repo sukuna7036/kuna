@@ -1,0 +1,13 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <sendAccountResponse>
+         <result>
+            <status>Success</status>
+            <http-status-code>200</http-status-code>
+            <summary>Success response message</summary>
+            <description>Success Response</description>
+            <request-timestamp>2018-01-25T19:22:50.554+05:30</request-timestamp>
+         </result>
+      </sendAccountResponse>
+   </soap:Body>
+</soap:Envelope>

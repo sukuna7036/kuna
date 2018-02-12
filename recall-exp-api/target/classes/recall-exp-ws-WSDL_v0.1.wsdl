@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Web Services API : InchcapeRecallInterface_v1
+-->
+<definitions targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1" xmlns:InboundIntegrationResponse="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+ <types>
+      <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+      <xsd:complexType name="InboundIntegrationResponse">
+	   <xsd:sequence>
+	  <xsd:element name="result" nillable="true">
+	    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="status" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="http-status-code" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="summary" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="description" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="request-timestamp" minOccurs="1" type="xsd:dateTime" nillable="false"/>
+        </xsd:sequence>
+      </xsd:complexType>
+	   </xsd:element>
+	    </xsd:sequence>
+	    </xsd:complexType>
+    </xsd:schema>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1">
+   <xsd:import namespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface"/>
+   <!--Defining character length restricted strings-->
+    <xsd:simpleType name="LimitedString_12">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="12"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_35">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="35"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_80">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="80"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_255">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="255"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_10000">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="10000"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+   
+   <xsd:complexType name="Recall">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalRecallId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="CampaignNumber" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="RecallName" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="RecallDescription" minOccurs="0" type="tns:LimitedString_10000" nillable="true"/>
+       <xsd:element name="StartDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="EndDate" minOccurs="0" type="xsd:date" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="RecallVehicle">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="CampaignNumber" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="VIN" minOccurs="1" type="tns:LimitedString_35" nillable="false"/>
+       <xsd:element name="ClaimDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="ClaimNumber" minOccurs="0" type="tns:LimitedString_12" nillable="true"/>
+       <xsd:element name="RecallStatus" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="sendRecall">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="Recall" minOccurs="0" type="tns:Recall" nillable="true"/>
+      <xsd:element name="recallVehicles" minOccurs="0" maxOccurs="unbounded" type="tns:RecallVehicle" nillable="true"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="sendRecallResponse" type="InboundIntegrationResponse:InboundIntegrationResponse"/>
+    
+  </xsd:schema>
+ </types>
+ <!-- Operation Messages -->
+ <message name="sendRecallRequest">
+  <part element="tns:sendRecall" name="parameters"/>
+ </message>
+ <message name="sendRecallResponse">
+  <part element="tns:sendRecallResponse" name="parameters"/>
+ </message>
+ <portType name="InchcapeRecallInterface_v1PortType">
+  <operation name="sendRecall">
+   <input message="tns:sendRecallRequest"/>
+   <output message="tns:sendRecallResponse"/>
+  </operation>
+ </portType>
+ <binding name="InchcapeRecallInterface_v1Binding" type="tns:InchcapeRecallInterface_v1PortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sendRecall">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal" parts="parameters"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="InchcapeRecallInterface_v1Service">
+  <documentation></documentation>
+  <port binding="tns:InchcapeRecallInterface_v1Binding" name="InchcapeRecallInterface_v1">
+   <soap:address location="https://localhost:8092/InchcapeRecallInterface_v1"/>
+  </port>
+ </service>
+</definitions>

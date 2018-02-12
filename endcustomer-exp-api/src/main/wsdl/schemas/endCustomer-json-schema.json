@@ -1,0 +1,488 @@
+ {
+   "$schema": "http://json-schema.org/draft-04/schema#", 
+   "definitions": {}, 
+   "id": "http://example.com/example.json", 
+   "properties": {
+     "customer-request": {
+       "id": "/properties/customer-request", 
+       "properties": {
+         "brand-preferences": {
+           "id": "/properties/customer-request/properties/brand-preferences", 
+           "items": {
+             "id": "/properties/customer-request/properties/brand-preferences/items", 
+             "properties": {
+               "Brand": {
+                 "default": "Land Rover", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/Brand", 
+                 "title": "The brand schema", 
+                 "type": "string"
+               }, 
+               "BusinessId": {
+                 "default": "ksa92ksad", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/BusinessId", 
+                 "title": "The businessid schema", 
+                 "type": "string"
+               }, 
+               "EmailOptIn": {
+                 "default": "true", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/EmailOptIn", 
+                 "title": "The emailoptin schema", 
+                 "type": "string"
+               }, 
+               "ExternalEntityId": {
+                 "default": "soiajd", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/ExternalEntityId", 
+                 "title": "The externalentityid schema", 
+                 "type": "string"
+               }, 
+               "MailOptIn": {
+                 "default": "false", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/MailOptIn", 
+                 "title": "The mailoptin schema", 
+                 "type": "string"
+               }, 
+               "PhoneOptIn": {
+                 "default": "true", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/PhoneOptIn", 
+                 "title": "The phoneoptin schema", 
+                 "type": "string"
+               }, 
+               "ResearchOptIn": {
+                 "default": "false", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/ResearchOptIn", 
+                 "title": "The researchoptin schema", 
+                 "type": "string"
+               }, 
+               "SMSOptIn": {
+                 "default": "true", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/SMSOptIn", 
+                 "title": "The smsoptin schema", 
+                 "type": "string"
+               }, 
+               "SourceSystem": {
+                 "default": "VMS", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/SourceSystem", 
+                 "title": "The sourcesystem schema", 
+                 "type": "string"
+               }, 
+               "SubscriptionSource": {
+                 "default": "", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/SubscriptionSource", 
+                 "title": "The subscriptionsource schema", 
+                 "type": "string"
+               }, 
+               "SubscriptionStatus": {
+                 "default": "Subscribed", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/SubscriptionStatus", 
+                 "title": "The subscriptionstatus schema", 
+                 "type": "string"
+               }, 
+               "Type": {
+                 "default": "Corporate Customer", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/Type", 
+                 "title": "The type schema", 
+                 "type": "string"
+               }, 
+               "UnsubscribeReason": {
+                 "default": "", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/brand-preferences/items/properties/UnsubscribeReason", 
+                 "title": "The unsubscribereason schema", 
+                 "type": "string"
+               }
+             }, 
+             "type": "object"
+           }, 
+           "type": "array"
+         }, 
+         "customer": {
+           "id": "/properties/customer-request/properties/customer", 
+           "properties": {
+             "BirthDate": {
+               "default": "01-01-1981", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/BirthDate", 
+               "title": "The birthdate schema", 
+               "type": "string"
+             }, 
+             "BusinessId": {
+               "default": "1298213aa", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/BusinessId", 
+               "title": "The businessid schema", 
+               "type": "string"
+             }, 
+             "BusinessPhone": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/BusinessPhone", 
+               "title": "The businessphone schema", 
+               "type": "string"
+             }, 
+             "BusinessPhoneValid": {
+               "default": "false", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/BusinessPhoneValid", 
+               "title": "The businessphonevalid schema", 
+               "type": "string"
+             }, 
+             "BusinessPhoneValidatedBy": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/BusinessPhoneValidatedBy", 
+               "title": "The businessphonevalidatedby schema", 
+               "type": "string"
+             }, 
+             "CompanyName": {
+               "default": "CIA", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/CompanyName", 
+               "title": "The companyname schema", 
+               "type": "string"
+             }, 
+             "ContactBirthDate": {
+               "default": "01-01-1981", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ContactBirthDate", 
+               "title": "The contactbirthdate schema", 
+               "type": "string"
+             }, 
+             "ContactFirstName": {
+               "default": "Jason", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ContactFirstName", 
+               "title": "The contactfirstname schema", 
+               "type": "string"
+             }, 
+             "ContactLastName": {
+               "default": "Bourne", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ContactLastName", 
+               "title": "The contactlastname schema", 
+               "type": "string"
+             }, 
+             "ContactSalutation": {
+               "default": "Mr.", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ContactSalutation", 
+               "title": "The contactsalutation schema", 
+               "type": "string"
+             }, 
+             "EmailAddress": {
+               "default": "json-burn@gmail.com", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/EmailAddress", 
+               "title": "The emailaddress schema", 
+               "type": "string"
+             }, 
+             "EmailAddressValid": {
+               "default": "true", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/EmailAddressValid", 
+               "title": "The emailaddressvalid schema", 
+               "type": "string"
+             }, 
+             "EmailAddressValidatedBy": {
+               "default": "Data Tools", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/EmailAddressValidatedBy", 
+               "title": "The emailaddressvalidatedby schema", 
+               "type": "string"
+             }, 
+             "ExternalCustomerId": {
+               "default": "98sadj329", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ExternalCustomerId", 
+               "title": "The externalcustomerid schema", 
+               "type": "string"
+             }, 
+             "ExternalId": {
+               "default": "1298213aa", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/ExternalId", 
+               "title": "The externalid schema", 
+               "type": "string"
+             }, 
+             "FirstName": {
+               "default": "Jason", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/FirstName", 
+               "title": "The firstname schema", 
+               "type": "string"
+             }, 
+             "Gender": {
+               "default": "male", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/Gender", 
+               "title": "The gender schema", 
+               "type": "string"
+             }, 
+             "HomePhone": {
+               "default": "+44(0)8784371", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/HomePhone", 
+               "title": "The homephone schema", 
+               "type": "string"
+             }, 
+             "HomePhoneValid": {
+               "default": "false", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/HomePhoneValid", 
+               "title": "The homephonevalid schema", 
+               "type": "string"
+             }, 
+             "HomePhoneValidatedBy": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/HomePhoneValidatedBy", 
+               "title": "The homephonevalidatedby schema", 
+               "type": "string"
+             }, 
+             "LastName": {
+               "default": "Bourne", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/LastName", 
+               "title": "The lastname schema", 
+               "type": "string"
+             }, 
+             "MailingAddressCity": {
+               "default": "London", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressCity", 
+               "title": "The mailingaddresscity schema", 
+               "type": "string"
+             }, 
+             "MailingAddressCounty": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressCounty", 
+               "title": "The mailingaddresscounty schema", 
+               "type": "string"
+             }, 
+             "MailingAddressDPID": {
+               "default": "129sakd3a01", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressDPID", 
+               "title": "The mailingaddressdpid schema", 
+               "type": "string"
+             }, 
+             "MailingAddressPostcode": {
+               "default": "12H L82", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressPostcode", 
+               "title": "The mailingaddresspostcode schema", 
+               "type": "string"
+             }, 
+             "MailingAddressRTS": {
+               "default": "true", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressRTS", 
+               "title": "The mailingaddressrts schema", 
+               "type": "string"
+             }, 
+             "MailingAddressState": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressState", 
+               "title": "The mailingaddressstate schema", 
+               "type": "string"
+             }, 
+             "MailingAddressStreet": {
+               "default": "12 Harper St.", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressStreet", 
+               "title": "The mailingaddressstreet schema", 
+               "type": "string"
+             }, 
+             "MailingAddressValid": {
+               "default": "true", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressValid", 
+               "title": "The mailingaddressvalid schema", 
+               "type": "string"
+             }, 
+             "MailingAddressValidatedBy": {
+               "default": "Data Tools", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MailingAddressValidatedBy", 
+               "title": "The mailingaddressvalidatedby schema", 
+               "type": "string"
+             }, 
+             "MobilePhone": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MobilePhone", 
+               "title": "The mobilephone schema", 
+               "type": "string"
+             }, 
+             "MobilePhoneValid": {
+               "default": "false", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MobilePhoneValid", 
+               "title": "The mobilephonevalid schema", 
+               "type": "string"
+             }, 
+             "MobilePhoneValidatedBy": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/MobilePhoneValidatedBy", 
+               "title": "The mobilephonevalidatedby schema", 
+               "type": "string"
+             }, 
+             "RecordType": {
+               "default": "Individual", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/RecordType", 
+               "title": "The recordtype schema", 
+               "type": "string"
+             }, 
+             "Salutation": {
+               "default": "Mr.", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/Salutation", 
+               "title": "The salutation schema", 
+               "type": "string"
+             }, 
+             "SourceSystem": {
+               "default": "Customer", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/SourceSystem", 
+               "title": "The sourcesystem schema", 
+               "type": "string"
+             }, 
+             "StandardAddressCity": {
+               "default": "London", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressCity", 
+               "title": "The standardaddresscity schema", 
+               "type": "string"
+             }, 
+             "StandardAddressCounty": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressCounty", 
+               "title": "The standardaddresscounty schema", 
+               "type": "string"
+             }, 
+             "StandardAddressDPID": {
+               "default": "129sakd3a01", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressDPID", 
+               "title": "The standardaddressdpid schema", 
+               "type": "string"
+             }, 
+             "StandardAddressPostcode": {
+               "default": "12H L82", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressPostcode", 
+               "title": "The standardaddresspostcode schema", 
+               "type": "string"
+             }, 
+             "StandardAddressRTS": {
+               "default": "false", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressRTS", 
+               "title": "The standardaddressrts schema", 
+               "type": "string"
+             }, 
+             "StandardAddressState": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressState", 
+               "title": "The standardaddressstate schema", 
+               "type": "string"
+             }, 
+             "StandardAddressStreet": {
+               "default": "12 Harper St.", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressStreet", 
+               "title": "The standardaddressstreet schema", 
+               "type": "string"
+             }, 
+             "StandardAddressValid": {
+               "default": "true", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressValid", 
+               "title": "The standardaddressvalid schema", 
+               "type": "string"
+             }, 
+             "StandardAddressValidatedBy": {
+               "default": "Data Tools", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/StandardAddressValidatedBy", 
+               "title": "The standardaddressvalidatedby schema", 
+               "type": "string"
+             }, 
+             "WorkPhone": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/WorkPhone", 
+               "title": "The workphone schema", 
+               "type": "string"
+             }, 
+             "WorkPhoneValid": {
+               "default": "false", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/WorkPhoneValid", 
+               "title": "The workphonevalid schema", 
+               "type": "string"
+             }, 
+             "WorkPhoneValidatedBy": {
+               "default": "", 
+               "description": "An explanation about the purpose of this instance.", 
+               "id": "/properties/customer-request/properties/customer/properties/WorkPhoneValidatedBy", 
+               "title": "The workphonevalidatedby schema", 
+               "type": "string"
+             }
+           }, 
+           "type": "object"
+         }, 
+         "external-ids": {
+           "id": "/properties/customer-request/properties/external-ids", 
+           "items": {
+             "id": "/properties/customer-request/properties/external-ids/items", 
+             "properties": {
+               "BusinessId": {
+                 "default": "kjsa93j", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/external-ids/items/properties/BusinessId", 
+                 "title": "The businessid schema", 
+                 "type": "string"
+               }, 
+               "ExternalEntityId": {
+                 "default": "jads93hjsd", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/external-ids/items/properties/ExternalEntityId", 
+                 "title": "The externalentityid schema", 
+                 "type": "string"
+               }, 
+               "SourceSystem": {
+                 "default": "VMS", 
+                 "description": "An explanation about the purpose of this instance.", 
+                 "id": "/properties/customer-request/properties/external-ids/items/properties/SourceSystem", 
+                 "title": "The sourcesystem schema", 
+                 "type": "string"
+               }
+             }, 
+             "type": "object"
+           }, 
+           "type": "array"
+         }
+       }, 
+       "type": "object"
+     }
+   }, 
+   "type": "object"
+ }

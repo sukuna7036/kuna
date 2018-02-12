@@ -1,0 +1,28 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1">
+
+   <soapenv:Body>
+      <inc:sendVehicle>
+        
+         <inc:vehicleAssociations>         
+            	<inc:BusinessId>Trivett Australia</inc:BusinessId>
+            	<inc:ExternalId>palash_2021</inc:ExternalId>
+			<inc:ExternalVehicleId>Palash2021</inc:ExternalVehicleId>
+            	<inc:VIN>J123XXX</inc:VIN>
+           	<inc:SourceSystem>VMS</inc:SourceSystem>
+            	<inc:ExternalEntityId>45678</inc:ExternalEntityId>
+            	<inc:ExternalEntityType>Individual</inc:ExternalEntityType>
+            	<inc:AssociationType>Owner</inc:AssociationType>
+            	<inc:ExternalFleetId>FL0011100</inc:ExternalFleetId>
+			<inc:ExternalSellingDealerId>111</inc:ExternalSellingDealerId>
+			<!--inc:PrimaryVehicleUse>PrivateLocal</inc:PrimaryVehicleUse-->
+			<inc:IsPrimary>true</inc:IsPrimary>
+			<inc:IsReversal>false</inc:IsReversal>
+			<inc:RegistrationNumber>ABC123</inc:RegistrationNumber>
+             	<inc:StartDate>2017-08-01</inc:StartDate>
+			<inc:EndDate>2017-09-02</inc:EndDate>
+         </inc:vehicleAssociations>
+		 	 
+        
+      </inc:sendVehicle>
+   </soapenv:Body>
+</soapenv:Envelope>

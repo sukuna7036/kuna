@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1" xmlns:gen="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <inc:sendVehicleResponse>
+         <inc:result>
+            <gen:status>error</gen:status>
+            <gen:httpStatusCode>500</gen:httpStatusCode>
+            <gen:summary>A validation error has occured</gen:summary>
+            <gen:description>One or more required fields were missing or failed to meet the validation criteria. Fields: businessId, externalId, sourceSystem</gen:description>
+            <gen:timestamp>2017-09-14T12:34:56</gen:timestamp>
+         </inc:result>
+      </inc:sendVehicleResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

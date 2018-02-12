@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+    <choice-exception-strategy name="global-exception-strategy">    
+    <!-- HTTP Exceptions -->
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.api.exception.MessageRedeliveredException)]" doc:name="Retry Policy Exausted For Anypoint MQ">
+            <set-session-variable variableName="messageId" value="#[message.inboundProperties.messageId]" doc:name="Session Variable"/>
+            <flow-ref name="global-publish-message-to-error-subflow" doc:name="global-publish-message-to-error-subflow"/>
+
+        </catch-exception-strategy>
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.http.internal.request.ResponseValidatorException)]" doc:name="HTTP Outbound Call Exception">
+            <choice doc:name="Check for Actual HTTP Status Code">
+                <when expression="#[message.inboundProperties['http.status'] == 400]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Exception in the upstream service']"/>
+                        <add-message-property key="errorMessage" value="#['Access to the upstream service is forbidden']"/>
+                        <add-message-property key="errorCode" value="400"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="#[400]" doc:name="Property"/>
+                    <set-variable variableName="stopLogWrite" value="#['true']" doc:name="Set Write Log Flag"/>
+                    <flow-ref name="global-prepare-custom-error-subflow" doc:name="global-prepare-custom-error-subflow"/>
+                </when>
+                <when expression="#[message.inboundProperties['http.status'] == 401]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Exception in the upstream service']"/>
+                        <add-message-property key="errorMessage" value="#['Access to the upstream service is forbidden']"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <set-variable variableName="stopLogWrite" value="#['true']" doc:name="Set Write Log Flag"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+                </when>
+                <when expression="#[message.inboundProperties['http.status'] == 403]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Exception in the upstream service']"/>
+                        <add-message-property key="errorMessage" value="#['Upstream service did not authorize the request']"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <set-variable variableName="stopLogWrite" value="#['true']" doc:name="Set Write Log Flag"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+                </when>
+                <when expression="#[message.inboundProperties['http.status'] &lt; 500]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Exception in the upstream service']"/>
+                        <add-message-property key="errorMessage" value="#['Upstream service unable to fulfil request']"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <set-variable variableName="stopLogWrite" value="#['true']" doc:name="Set Write Log Flag"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>                    
+                </when>
+                <otherwise>
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Exception in the upstream service']"/>
+                        <add-message-property key="errorMessage" value="#['Upstream service internal error']"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <set-variable variableName="stopLogWrite" value="#['true']" doc:name="Set Write Log Flag"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>                
+                </otherwise>
+            </choice>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.apikit.exception.NotFoundException)]" doc:name="Caused By (org.mule.module.apikit.exception.NotFoundException)">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Resource Not Found']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="404"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="404" doc:name="Set Custom HTTP Status Code"/>            
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.apikit.exception.MethodNotAllowedException)]" doc:name="Method Not Allowed">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Method Not Allowed']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="405"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="405" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.apikit.exception.UnsupportedMediaTypeException)]" doc:name="Unsupported Media Type">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['	']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="415"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="415" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.apikit.exception.NotAcceptableException)]" doc:name="Caused By (org.mule.module.apikit.exception.NotAcceptableException)">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Unable to fullfil request']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="406"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="406" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.module.apikit.exception.BadRequestException)]" doc:name="Bad Request Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Request is not in the valid format']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="400"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="400" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.extension.validation.api.ValidationException)]" doc:name="Caused By (org.mule.extension.validation.api.ValidationException)">
+            <choice doc:name="Check for Actual HTTP Status Code">
+                <when expression="#[message.inboundProperties['http.status'] == 401]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Upstream service did not authorize the request']"/>
+                        <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+                </when>
+                <when expression="#[message.inboundProperties['http.status'] == 403]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Access to the upstream service is forbidden']"/>
+                        <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+                </when>
+                <when expression="#[message.inboundProperties['http.status'] &lt; 500]">
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Upstream service unable to fulfil request']"/>
+                        <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>                    
+                </when>
+                <otherwise>
+                    <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                        <add-message-property key="errorType" value="#['Technical Exception']"/>
+                        <add-message-property key="errorSummary" value="#['Upstream service internal error']"/>
+                        <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                        <add-message-property key="errorCode" value="502"/>
+                        <add-message-property key="errorSeverity" value="#['P3']"/>
+                    </message-properties-transformer>
+                    <set-property propertyName="http.status" value="502" doc:name="Set Custom HTTP Status Code"/>
+                    <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>                
+                </otherwise>
+            </choice>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(javax.net.ssl.SSLHandshakeException)]" doc:name="SSL Handshake Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['SSL Error']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.api.security.UnauthorisedException)]" doc:name="Unauthorized">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Unauthorised Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception.message]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>        
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.springframework.security.authentication.BadCredentialsException)]" doc:name="Authentication Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Authentication Failed. Please check your credentials.']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception.message]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causeMatches('org.mule.module.ldap.api.exception.AuthenticationException')]" doc:name="LDAP Authentication Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['LDAP Authentication Failed. Please check your credentials.']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception.message]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.net.SocketTimeoutException) || exception.causedBy(java.util.concurrent.TimeoutException)]" doc:name="Connection Timeout">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Connection Timeout']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-custom-error-subflow" doc:name="global_prepare_custom_error_subflow"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.net.SocketException) || exception.causedBy(java.net.ConnectException)]" doc:name="Connection Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Error Connecting to endpoint']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-custom-error-subflow" doc:name="global-prepare-custom-error-subflow"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.io.IOException)]" doc:name="IO Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSummary" value="#['IO Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.net.UnknownHostException)]" doc:name="Unknown Host Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Unknown Host Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P2']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(com.mulesoft.weave.mule.exception.WeaveExecutionException) || exception.causedBy(com.mulesoft.weave.model.values.coercion.exception.UnsupportedTypeCoercionException)]" doc:name="Dataweave Transformation Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['DataWeave Transformation Error']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception.message]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.api.transformer.TransformerMessagingException) || 
+                                                                                                exception.causedBy(org.xml.sax.SAXParseException) || 
+                                                                                                exception.causedBy(com.ctc.wstx.exc.WstxUnexpectedCharException) ||
+                                                                                                exception.causedBy(org.codehaus.jackson.JsonParseException)]" doc:name="Transformation Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Transformation Error']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(com.mulesoft.flatfile.lexical.LexicalException)]" doc:name="Dataweave Schema Validation">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Schema Validation Failure']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causeMatches('com.mysql.*')]" doc:name="Caused By (com.mysql.jdbc.exceptions)">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['DB Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.sql.SQLException)]" doc:name="DB Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['DB Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(java.lang.RuntimeException)]" doc:name="Caused by (java.lang.RuntimeException)">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSummary" value="#['Java Runtime Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>     
+        
+        <catch-exception-strategy when="#[exception.causedBy(javax.jms.JMSException)]" doc:name="ActiveMQ Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['ActiveMQ Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causeMatches('com.ic.leh.CustomException*')]" doc:name="Custom Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Business Exception']"/>
+                <add-message-property key="errorSummary" value="#['Business Exception']"/>
+                <add-message-property key="errorMessage" value="#[exception.cause.message]"/>
+                <add-message-property key="errorCode" value="400"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="400" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+        	
+        <catch-exception-strategy when="#[exception.causeMatches('java.net')]" doc:name="Cause Matches ('java.net')">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Unable to connect to the endpoint']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causeMatches('com.mulesoft.weave*')]" doc:name="DataWeave Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['DataWeave Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception.message]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.api.MessagingException)]" doc:name="Messaging Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Messaging Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+        
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.api.MuleRuntimeException) || exception.causedBy(org.mule.api.MuleException) || exception.causedBy(org.mule.api.expression.ExpressionRuntimeException)]" doc:name="Runtime Exception">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Runtime Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+
+        <catch-exception-strategy when="#[exception.causedBy(org.mule.retry.RetryPolicyExhaustedException)]" doc:name="Retry Policy Exausted Exception">
+            <logger message="*** Initiated Retry Mechanism ***" level="INFO" doc:name="Log Initialization of Retry Mechanism"/>
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Retry - Runtime Exception']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>            
+        </catch-exception-strategy>
+                
+        <catch-exception-strategy doc:name="Default">
+            <message-properties-transformer scope="invocation" doc:name="Set Error Details">
+                <add-message-property key="errorType" value="#['Technical Exception']"/>
+                <add-message-property key="errorSummary" value="#['Unable to fullfil request due to internal error.']"/>
+                <add-message-property key="errorMessage" value="#[(exception.cause != null) ? (exception.cause.message) : exception]"/>
+                <add-message-property key="errorCode" value="500"/>
+                <add-message-property key="errorSeverity" value="#['P3']"/>
+            </message-properties-transformer>
+            <set-property propertyName="http.status" value="500" doc:name="Set Custom HTTP Status Code"/>
+            <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+        </catch-exception-strategy>
+    </choice-exception-strategy>
+    <sub-flow name="global-prepare-error-response-sub-flow">
+        
+        
+        <set-variable variableName="errorRaised" value="#[true]" doc:name="Set Error Raised Flag"/>
+        <logger message="{ &quot;transaction&quot;: &quot;#[flowVars.transactionId]&quot;, &quot;isError&quot;: &quot;#[flowVars.errorRaised]&quot;, &quot;response&quot;: &quot;#[message.outboundProperties['http.status']]&quot;, &quot;errorCode&quot;: &quot;#[flowVars.errorCode]&quot;, &quot;errorMessage&quot;: &quot;#[flowVars.errorMessage != null ? flowVars.errorMessage : '']&quot;, &quot;errorDescription&quot;: &quot;#[flowVars.errorSummary != null ? flowVars.errorSummary : '']&quot; }" level="ERROR" category="Audit" doc:name="Audit Logging of  Error Message"/>
+        <set-variable variableName="exceptionProcessor" value="#[exception.info.Element.contains('@') ? org.mule.util.StringUtils.substringAfter(exception.info.Element, '@') : exception.event.flowConstruct.name]" doc:name="Set Exception Processor"/>
+        <dw:transform-message doc:name="Transform - Create Error Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json encoding="UTF-8", skipNullOn="everywhere"
+---
+{
+	status: "error",
+	error: {
+		errorCode: flowVars.errorCode,
+		errorDateTime: now as :string { format: "yyyy-MM-dd'T'HH:mm:ssZ" },
+		errorType: flowVars.errorType,
+		errorSummary: flowVars.errorSummary,
+		errorMessage: flowVars.errorMessage
+		//(errorSeverity: flowVars.errorSeverity) when flowVars.errorSeverity != null
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String- Transformation of Error Payload"/>
+        <logger message="#[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Log Error Payload"/>
+        <flow-ref name="leh-common-trans-log-error-subflow" doc:name="leh-common-trans-log-error-subflow"/>
+
+    </sub-flow>
+    <sub-flow name="global-prepare-batch-record-error-response-sub-flow">
+        <json:object-to-json-transformer doc:name="Object to JSON - Transformation of Payload"/>
+        <anypoint-mq:publish config-ref="Dead_letter_queue_channel_config" destination="error-queue" doc:name="Publish Payload to Anypoint MQ Error Queue">
+            <anypoint-mq:message-builder/>
+        </anypoint-mq:publish>
+        <set-variable variableName="errorRaised" value="#[true]" doc:name="Set Error Raised Flag"/>
+        <logger message="{ &quot;transaction&quot;: &quot;#[flowVars.transactionId]&quot;, &quot;isError&quot;: &quot;#[flowVars.errorRaised]&quot;, &quot;response&quot;: &quot;#[message.outboundProperties['http.status']]&quot;, &quot;errorCode&quot;: &quot;#[flowVars.errorCode]&quot;, &quot;errorMessage&quot;: &quot;#[flowVars.errorMessage != null ? flowVars.errorMessage : '']&quot;, &quot;errorDescription&quot;: &quot;#[flowVars.errorSummary != null ? flowVars.errorSummary : '']&quot; }" level="ERROR" category="Audit" doc:name="Audit Logging of  Error Message"/>
+        <dw:transform-message doc:name="Transform - Create Error Message">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json encoding="UTF-8", skipNullOn="everywhere"
+---
+{
+	status: "error",
+	error: {
+		errorCode: flowVars.errorCode,
+		errorDateTime: now as :string { format: "yyyy-MM-dd'T'HH:mm:ssZ" },
+		errorType: flowVars.errorType,
+		errorSummary: flowVars.errorSummary,
+		errorMessage: flowVars.errorMessage
+		//(errorSeverity: flowVars.errorSeverity) when flowVars.errorSeverity != null
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String- Transformation of Error Payload"/>
+        <logger message="#[message.payloadAs(java.lang.String)]" level="INFO" doc:name="Log Error Payload"/>
+        <flow-ref name="leh-common-trans-log-error-subflow" doc:name="leh-common-trans-log-error-subflow"/>
+    </sub-flow>
+    <sub-flow name="global-prepare-custom-error-subflow">
+  
+      <choice doc:name="Check for Error Code">
+            <when expression="#[flowVars.errorCode &lt;= '499']">
+                <logger message="400 occurred !!!!!" level="INFO" doc:name="400"/>
+                <dw:transform-message doc:name="Transform Message">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+sessionVars.originalPayload]]></dw:set-payload>
+                </dw:transform-message>
+                <flow-ref name="global-publish-message-to-error-subflow" doc:name="global-publish-message-to-error-subflow"/>
+
+            </when>
+           
+            <otherwise>
+                <logger  level="INFO" doc:name="500" message="500 occurred............ #[payload]"/>
+                <anypoint-mq:nack config-ref="Anypoint_MQ_Configuration_leh" doc:name="Not to Acknowledge Queue"/>
+
+            </otherwise>
+        </choice>
+        <flow-ref name="global-prepare-error-response-sub-flow" doc:name="global-prepare-error-response-sub-flow"/>
+    
+    </sub-flow>
+    <sub-flow name="global-publish-message-to-error-subflow">
+    
+    <anypoint-mq:publish config-ref="Dead_letter_queue_channel_config" destination="${mq.errorqueue}" doc:name="Publish Payload to Anypoint MQ Error Queue">
+                        <anypoint-mq:message-builder messageId="#[sessionVars.messageId]"/>
+                    </anypoint-mq:publish>
+                    <anypoint-mq:ack config-ref="Anypoint_MQ_Configuration_leh" doc:name="Acknowledging Queue"/>
+    </sub-flow>
+</mule>

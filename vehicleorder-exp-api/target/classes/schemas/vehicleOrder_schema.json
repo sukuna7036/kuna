@@ -1,0 +1,216 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#", 
+  "definitions": {}, 
+  "id": "http://example.com/example.json", 
+  "properties": {
+    "vehicleorder-request": {
+      "id": "/properties/vehicleorder-request", 
+      "properties": {
+        "vehicleorder": {
+          "id": "/properties/vehicleorder-request/properties/vehicleorder", 
+          "properties": {
+            "BusinessId": {
+              "default": "Trivett Australia", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/BusinessId", 
+              "title": "The businessid schema", 
+              "type": "string"
+            }, 
+            "CylinderCount": {
+              "default": "8", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/CylinderCount", 
+              "title": "The cylindercount schema", 
+              "type": "string"
+            }, 
+            "DealerEmailAddress": {
+              "default": "info@toyotagreece.com", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/DealerEmailAddress", 
+              "title": "The dealeremailaddress schema", 
+              "type": "string"
+            }, 
+            "DealerName": {
+              "default": "Toyota Greece", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/DealerName", 
+              "title": "The dealername schema", 
+              "type": "string"
+            }, 
+            "DocumentURL": {
+              "default": "www.google.com.au", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/DocumentURL", 
+              "title": "The documenturl schema", 
+              "type": "string"
+            }, 
+            "ExteriorColour": {
+              "default": "Black", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExteriorColour", 
+              "title": "The exteriorcolour schema", 
+              "type": "string"
+            }, 
+            "ExteriorColourCode": {
+              "default": "1X", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExteriorColourCode", 
+              "title": "The exteriorcolourcode schema", 
+              "type": "string"
+            }, 
+            "ExternalCustomerId": {
+              "default": "Ijhau28a", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExternalCustomerId", 
+              "title": "The externalcustomerid schema", 
+              "type": "string"
+            }, 
+            "ExternalId": {
+              "default": "eb03d0e9-99f9-45cb-999e-5da8d77f24d1", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExternalId", 
+              "title": "The externalid schema", 
+              "type": "string"
+            }, 
+            "ExternalOrderId": {
+              "default": "4f2d425e-e56a-40c3-943a-0500d26ff011", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExternalOrderId", 
+              "title": "The externalorderid schema", 
+              "type": "string"
+            }, 
+            "ExternalVehicleId": {
+              "default": "27008", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ExternalVehicleId", 
+              "title": "The externalvehicleid schema", 
+              "type": "string"
+            }, 
+            "FuelType": {
+              "default": "Diesel", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/FuelType", 
+              "title": "The fueltype schema", 
+              "type": "string"
+            }, 
+            "InteriorColour": {
+              "default": "Black", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/InteriorColour", 
+              "title": "The interiorcolour schema", 
+              "type": "string"
+            }, 
+            "InteriorColourCode": {
+              "default": "20", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/InteriorColourCode", 
+              "title": "The interiorcolourcode schema", 
+              "type": "string"
+            }, 
+            "Make": {
+              "default": "Toyota", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/Make", 
+              "title": "The make schema", 
+              "type": "string"
+            }, 
+            "ModelCode": {
+              "default": "WXFCK5U/P:AU", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ModelCode", 
+              "title": "The modelcode schema", 
+              "type": "string"
+            }, 
+            "ModelDescription": {
+              "default": "TRIBECA WAGON 3.6P 7 SEAT AUTO", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ModelDescription", 
+              "title": "The modeldescription schema", 
+              "type": "string"
+            }, 
+            "ModelName": {
+              "default": "TRIBECA", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ModelName", 
+              "title": "The modelname schema", 
+              "type": "string"
+            }, 
+            "ModelVariant": {
+              "default": "3.6R PREMIUM", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ModelVariant", 
+              "title": "The modelvariant schema", 
+              "type": "string"
+            }, 
+            "ModelYear": {
+              "default": "2017", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/ModelYear", 
+              "title": "The modelyear schema", 
+              "type": "string"
+            }, 
+            "OrderAmount": {
+              "default": "56,000.01", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/OrderAmount", 
+              "title": "The orderamount schema", 
+              "type": "string"
+            }, 
+            "OrderBalance": {
+              "default": "50,600.01", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/OrderBalance", 
+              "title": "The orderbalance schema", 
+              "type": "string"
+            }, 
+            "OrderNumber": {
+              "default": "1456", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/OrderNumber", 
+              "title": "The ordernumber schema", 
+              "type": "string"
+            }, 
+            "OrderStatus": {
+              "default": "New", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/OrderStatus", 
+              "title": "The orderstatus schema", 
+              "type": "string"
+            }, 
+            "OrderURL": {
+              "default": "www.google.com.au", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/OrderURL", 
+              "title": "The orderurl schema", 
+              "type": "string"
+            }, 
+            "SourceSystem": {
+              "default": "VMS", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/SourceSystem", 
+              "title": "The sourcesystem schema", 
+              "type": "string"
+            }, 
+            "Transmission": {
+              "default": "Manual", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/Transmission", 
+              "title": "The transmission schema", 
+              "type": "string"
+            }, 
+            "VIN": {
+              "default": "JZX12363F31145671", 
+              "description": "An explanation about the purpose of this instance.", 
+              "id": "/properties/vehicleorder-request/properties/vehicleorder/properties/VIN", 
+              "title": "The vin schema", 
+              "type": "string"
+            }
+          }, 
+          "type": "object"
+        }
+      }, 
+      "type": "object"
+    }
+  }, 
+  "type": "object"
+}

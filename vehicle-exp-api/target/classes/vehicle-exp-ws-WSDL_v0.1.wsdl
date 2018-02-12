@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Web Services API : InchcapeVehicleInterface_v1
+-->
+<definitions targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1" xmlns:InboundIntegrationResponse="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+ <types>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+      <xsd:complexType name="InboundIntegrationResponse">
+	   <xsd:sequence>
+	  <xsd:element name="result" nillable="true">
+	    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="status" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="http-status-code" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="summary" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="description" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="request-timestamp" minOccurs="1" type="xsd:dateTime" nillable="false"/>
+        </xsd:sequence>
+      </xsd:complexType>
+	   </xsd:element>
+	    </xsd:sequence>
+	    </xsd:complexType>
+    </xsd:schema>
+
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1">
+   <xsd:import namespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface"/>
+   <!--Defining character length restricted strings-->
+      <xsd:simpleType name="LimitedString_10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+	   <xsd:simpleType name="LimitedString_255">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="255"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_15">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="15"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_30">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="30"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_35">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="35"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_50">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="50"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_80">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="80"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_100">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="100"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_500">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="500"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_4">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+	   <xsd:simpleType name="LimitedDouble_9999999999">
+        <xsd:restriction base="xsd:double">
+          <xsd:maxInclusive value="9999999999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+   <xsd:complexType name="Vehicle">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalVehicleId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="StockNumber" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="VIN" minOccurs="1" type="tns:LimitedString_35" nillable="false"/>
+       <xsd:element name="Make" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ModelCode" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="ModelYear" minOccurs="0" type="tns:LimitedString_4" nillable="true"/>
+       <xsd:element name="EngineNumber" minOccurs="0" type="tns:LimitedString_15" nillable="true"/>
+       <xsd:element name="KeyNumber" minOccurs="0" type="tns:LimitedString_10" nillable="true"/>
+       <xsd:element name="ExternalColour" minOccurs="0" type="tns:LimitedString_50" nillable="true"/>
+       <xsd:element name="InternalColour" minOccurs="0" type="tns:LimitedString_50" nillable="true"/>
+       <xsd:element name="BuildDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="ReceivedInStockDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="DeliveryDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="PrimaryStatus" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="SecondaryStatus" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="OdometerReading" minOccurs="0" type="tns:LimitedDouble_9999999999" nillable="true"/>
+       <xsd:element name="ExternalSalespersonId" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="ModelColourCode" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="VehicleAssociation">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalVehicleId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="VIN" minOccurs="1" type="tns:LimitedString_35" nillable="false"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalEntityId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalEntityType" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="AssociationType" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+	   <xsd:element name="ExternalFleetId" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="ExternalSellingDealerId" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="PrimaryVehicleUse" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="IsPrimary" minOccurs="0" type="xsd:boolean" nillable="true"/>
+       <xsd:element name="IsReversal" minOccurs="0" type="xsd:boolean" nillable="true"/>
+       <xsd:element name="RegistrationNumber" minOccurs="0" type="tns:LimitedString_10" nillable="true"/>
+       <xsd:element name="StartDate" minOccurs="1" type="xsd:date" nillable="false"/>
+       <xsd:element name="EndDate" minOccurs="0" type="xsd:date" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="VehiclePolicy">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalVehicleId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalCustomerId" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="VIN" minOccurs="1" type="tns:LimitedString_35" nillable="false"/>
+       <xsd:element name="Provider" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="PolicyStatus" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="Type" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="StartDate" minOccurs="1" type="xsd:date" nillable="false"/>
+       <xsd:element name="EndDate" minOccurs="1" type="xsd:date" nillable="false"/>
+       <xsd:element name="InceptionDate" minOccurs="0" type="xsd:date" nillable="true"/>
+       <xsd:element name="LinkToOwner" minOccurs="0" type="xsd:boolean" nillable="true"/>
+       <xsd:element name="ProviderPolicyNumber" minOccurs="0" type="tns:LimitedString_100" nillable="true"/>
+       <xsd:element name="ProviderStatus" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ProviderMarketing" minOccurs="0" type="xsd:boolean" nillable="true"/>
+       <xsd:element name="InvalidReason" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="PendingAction" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ProvisioningStatus" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ProvisioningError" minOccurs="0" type="tns:LimitedString_500" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="sendVehicle">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="Vehicle" minOccurs="0" maxOccurs="unbounded" type="tns:Vehicle" nillable="true"/>
+      <xsd:element name="vehicleAssociations" minOccurs="0" maxOccurs="unbounded" type="tns:VehicleAssociation" nillable="true"/>
+      <xsd:element name="vehiclePolicies" minOccurs="0" maxOccurs="unbounded" type="tns:VehiclePolicy" nillable="true"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="sendVehicleResponse" type="InboundIntegrationResponse:InboundIntegrationResponse"/>
+  </xsd:schema>
+ </types>
+ <!-- Operation Messages -->
+ <message name="sendVehicleRequest">
+  <part element="tns:sendVehicle" name="parameters"/>
+ </message>
+ <message name="sendVehicleResponse">
+  <part element="tns:sendVehicleResponse" name="parameters"/>
+ </message>
+ <portType name="InchcapeVehicleInterface_v1PortType">
+  <operation name="sendVehicle">
+   <input message="tns:sendVehicleRequest"/>
+   <output message="tns:sendVehicleResponse"/>
+  </operation>
+ </portType>
+ <binding name="InchcapeVehicleInterface_v1Binding" type="tns:InchcapeVehicleInterface_v1PortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sendVehicle">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal" parts="parameters"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="InchcapeVehicleInterface_v1Service">
+  <documentation></documentation>
+  <port binding="tns:InchcapeVehicleInterface_v1Binding" name="InchcapeVehicleInterface_v1">
+   <soap:address location="https://localhost:8090/InchcapeVehicleInterface_v1"/>
+  </port>
+ </service>
+</definitions>

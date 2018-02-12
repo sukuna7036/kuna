@@ -1,0 +1,20 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1" xmlns:gen="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+   <soapenv:Header>
+      <inc:DebuggingInfo>
+         <inc:debugLog>?</inc:debugLog>
+      </inc:DebuggingInfo>
+   </soapenv:Header>
+   <soapenv:Body>
+      <inc:sendRecallResponse>
+         <inc:result>
+            <gen:status>?</gen:status>
+            <gen:httpStatusCode>?</gen:httpStatusCode>
+            <!--Optional:-->
+            <gen:summary>?</gen:summary>
+            <!--Optional:-->
+            <gen:description>?</gen:description>
+            <gen:timestamp>?</gen:timestamp>
+         </inc:result>
+      </inc:sendRecallResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

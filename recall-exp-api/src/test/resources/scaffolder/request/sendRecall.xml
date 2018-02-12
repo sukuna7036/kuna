@@ -1,0 +1,20 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <inc:sendRecall>
+         <!--Optional:-->
+         <inc:Recall>
+            <inc:BusinessId>Trivett Australia</inc:BusinessId>
+            <inc:ExternalId>sudhir-26-26</inc:ExternalId>
+            <inc:SourceSystem>VMS</inc:SourceSystem>
+            <inc:ExternalRecallId>12453</inc:ExternalRecallId>
+            <inc:CampaignNumber>kuna-05</inc:CampaignNumber>
+            <inc:RecallName>abc</inc:RecallName>
+            <inc:RecallDescription>Recalling Vehicle in Full</inc:RecallDescription>
+             <inc:StartDate>2005-04-20</inc:StartDate>
+            <inc:EndDate>2006-05-20</inc:EndDate> 
+         </inc:Recall>
+         
+      </inc:sendRecall>
+   </soapenv:Body>
+</soapenv:Envelope>

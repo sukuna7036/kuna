@@ -1,0 +1,32 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1">
+
+   <soapenv:Body>
+      <inc:sendVehicle>
+         <inc:Vehicle>
+            	<inc:BusinessId>Trivett Australia</inc:BusinessId>
+            	<inc:ExternalId>palash_2021</inc:ExternalId>
+            	<inc:ExternalVehicleId>Palash2021</inc:ExternalVehicleId>
+            	<inc:SourceSystem>VMS</inc:SourceSystem>
+			<inc:StockNumber>1233vf</inc:StockNumber>
+			<inc:VIN>J123XXX</inc:VIN>
+			<inc:Make>Subaru</inc:Make>
+			<inc:ModelCode>BN9AK7C</inc:ModelCode>
+			<inc:ModelYear>2015</inc:ModelYear>
+			<inc:EngineNumber>123</inc:EngineNumber>
+			<inc:KeyNumber>123</inc:KeyNumber>
+			<inc:ExternalColour>Black</inc:ExternalColour>
+			<inc:InternalColour>Black</inc:InternalColour>
+			<inc:BuildDate>2016-01-12</inc:BuildDate>
+			<inc:ReceivedInStockDate>2017-01-01</inc:ReceivedInStockDate>
+			<inc:DeliveryDate>2017-01-11</inc:DeliveryDate>
+               <inc:PrimaryStatus>Retailed</inc:PrimaryStatus>
+			<!--inc:SecondaryStatus>345345</inc:SecondaryStatus-->
+			<inc:OdometerReading>234</inc:OdometerReading>
+			<inc:ExternalSalespersonId>123</inc:ExternalSalespersonId>
+			<inc:ModelColourCode>123</inc:ModelColourCode>
+         </inc:Vehicle>
+         <!--Zero or more repetitions:-->
+         
+      </inc:sendVehicle>
+   </soapenv:Body>
+</soapenv:Envelope>

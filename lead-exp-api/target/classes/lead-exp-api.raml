@@ -1,0 +1,35 @@
+#%RAML 1.0
+title: Lead Experience API 
+version: v1
+baseUri: http://localhost:8999/lead-exp-api
+protocols: [HTTPS]
+
+    
+traits: !include traits/traits.raml
+
+types:
+  lead-request: !include types/lead-request.raml
+  common-response: !include common/common-response.raml
+  error-response: !include common/common-response.raml
+  
+/lead: 
+  displayName: Lead
+  is: [authorized]
+  description: This endpoint allows to post data related to Lead into Salesforce Cloud.
+  post:
+    body: 
+      application/json: 
+        type: lead-request
+#        example: !include examples/account/realtime/request/sendAccount_JSON_example.json
+    responses: 
+      201: 
+        body: 
+          application/json:
+            type: common-response 
+            example: !include examples/responses/success-response.json
+               
+      400:
+        body: 
+          application/json:
+            type: error-response 
+            example: !include examples/responses/error-response-400.json

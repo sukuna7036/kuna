@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1">
+   <soapenv:Body>
+      <inc:sendRecall>
+         <inc:Recall>
+           <inc:BusinessId>Toyota Greece</inc:BusinessId>
+            <inc:ExternalId>abcd20170605111212</inc:ExternalId>
+            <inc:SourceSystem>VMS</inc:SourceSystem>
+            <inc:ExternalRecallId>0001000185</inc:ExternalRecallId>
+            <inc:CampaignNumber>R89707</inc:CampaignNumber>
+            <inc:RecallName>Toyota Yaris drainage hose</inc:RecallName>
+            <inc:RecallDescription>Airconditioner Drainage Hose</inc:RecallDescription>
+            <inc:StartDate>2017-09-09</inc:StartDate>
+            <inc:EndDate>2017-05-01</inc:EndDate>
+         </inc:Recall>
+         <inc:recallVehicles>
+            <inc:BusinessId>Toyota Greece</inc:BusinessId>
+            <inc:ExternalId>abcd20170605111212</inc:ExternalId>
+            <inc:SourceSystem>VMS</inc:SourceSystem>
+            <inc:CampaignNumber>0001000185</inc:CampaignNumber>
+            <inc:VIN>abc11</inc:VIN>
+            <inc:ClaimDate>2017-05-06</inc:ClaimDate>
+            <inc:ClaimNumber>0000212</inc:ClaimNumber>
+            <inc:RecallStatus>Active</inc:RecallStatus>
+         </inc:recallVehicles>
+      </inc:sendRecall>
+   </soapenv:Body>
+</soapenv:Envelope>

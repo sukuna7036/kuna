@@ -1,0 +1,214 @@
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:context="http://www.springframework.org/schema/context" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit-soap="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/apikit-soap http://www.mulesoft.org/schema/mule/apikit-soap/current/mule-apikit-soap.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd">
+
+    <apikit-soap:config name="InchcapeRecallInterface_v1/api-config" portName="InchcapeRecallInterface_v1" serviceName="InchcapeRecallInterface_v1Service" wsdlUrl="recall-exp-ws-WSDL_v0.1.wsdl" doc:name="APIkit SOAP: Configuration" inboundValidationMessage="true"/>
+    
+  <flow name="api-main">
+    <http:listener path="${https.path}" config-ref="Recall_HTTP_Listener_Config" doc:name="HTTP Listener - to Receive SOAP based Recall Request" />
+    
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML- Transformation of Payload"/>
+
+        <flow-ref name="leh-common-request-preprocess-subflow" doc:name="LEH - Request Preprocess"/>
+        <flow-ref name="leh-common-trans-log-start-subflow" doc:name="LEH - Log Transaction Start"/>
+        <flow-ref name="leh-common-service-log-start-subflow" doc:name="LEH - Log Service Start"/> 
+		<flow-ref name="authentication-exp-flow" doc:name="Perform User Authentication"/>
+            <choice doc:name="Check for Custom Authentication Failure HTTP Status Code">
+            <when expression="#[message.outboundProperties.'http.status' == 403]">
+                <dw:transform-message doc:name="Create Invalid Credentials  Response">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace soap http://schemas.xmlsoap.org/soap/envelope/
+%namespace ns0 http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1
+%namespace ns1 http://www.cloudhub.io/schemas/class/GenericWebServiceInterface
+---
+{
+  soap#Envelope:{
+      soap#Body:{
+    ns0#sendRecallResponse:{
+        ns1#result: {
+        ns1#status: "error",
+        ns1#http-status-code: 403,
+        ns1#summary:"Invalid Credentials",
+        ns1#description:"Authorization failed due to invalid credentials",
+        ns1#request-timestamp:now as :datetime {format: "yyyy-MM-dd HH:mm:ss.SSS"}
+       }
+      }
+    }
+  }
+}]]></dw:set-payload>
+                </dw:transform-message>
+
+
+            </when>
+            <otherwise>
+                <apikit-soap:router config-ref="InchcapeRecallInterface_v1/api-config" doc:name="Recall SOAPKit Router"/>
+                <scripting:component doc:name="Retrieving Fault Details">
+                    <scripting:script engine="Groovy"><![CDATA[def str= payload;
+def status=message.getInvocationProperty('flag');
+if(status == null)
+{
+message.setInvocationProperty('flag',false)
+def substr=str.substring(str.indexOf("<faultstring>"),str.indexOf("</faultstring>"));
+def substrcode=str.substring(str.indexOf("<faultcode>"),str.indexOf("</faultcode>"));
+def faultcode=(substrcode.replaceAll("<faultcode>",""));
+def faultstring=((substr.replaceAll("<faultstring>","")).replaceAll("<","")).replaceAll(">","");
+message.setInvocationProperty('faultString', faultstring)
+message.setInvocationProperty('faultCode', faultcode)
+
+}
+
+]]></scripting:script>
+                </scripting:component>
+                <dw:transform-message doc:name="Transformation - Create Success/Failure Response">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace soap http://schemas.xmlsoap.org/soap/envelope/
+%namespace ns0 http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1
+%namespace ns1 http://www.cloudhub.io/schemas/class/GenericWebServiceInterface
+
+---
+
+{ 
+	soap#Envelope :{
+  		soap#Body:{
+  			ns0#sendRecallResponse: {
+				ns1#result:  {
+					ns1#status: "Success",
+					ns1#http-status-code: 200,
+					ns1#summary: "Success response message",
+					ns1#description: "Success response message",
+					ns1#request-timestamp:now as :datetime {format: "yyyy-MM-dd HH:mm:ss.SSS"}
+				}
+			}
+		}
+	}
+} when (flowVars.flag) otherwise {
+  	soap#Envelope:{
+  		soap#Body:{
+  			ns0#sendRecallResponse:{
+  				ns1#result: {
+  					ns1#status: "Fault",
+			 		ns1#http-status-code: 500,
+			 		ns1#summary :flowVars.faultCode,
+			 		ns1#description :flowVars.faultString,
+			 		ns1#request-timestamp:now as :datetime {format: "yyyy-MM-dd HH:mm:ss.SSS"} 
+	   			}
+	  		}
+		}	
+	}
+}
+]]></dw:set-payload>
+                </dw:transform-message>
+
+            </otherwise>
+        </choice>
+        <exception-strategy ref="global-exception-strategy" doc:name="Reference Exception Strategy"/>      
+  
+  </flow>
+   <flow name="sendRecall:InchcapeRecallInterface_v1/api-config">
+
+        <anypoint-mq:publish config-ref="Anypoint_MQ_Configuration" destination="${mq.queue}" doc:name="Publishing XML Message to Recall Exchange">
+            <anypoint-mq:message-builder>
+                <anypoint-mq:properties>
+                    <anypoint-mq:property propertyName="transactionId" value="#[sessionVars.transactionId]"/>
+                </anypoint-mq:properties>
+            </anypoint-mq:message-builder>
+        </anypoint-mq:publish>
+
+         <set-variable variableName="flag" value="#[true]" doc:name="Set Flag"/>
+
+
+    </flow>
+    
+    <flow name="recall-exp-api-processing-flow">
+        <anypoint-mq:subscriber config-ref="Anypoint_MQ_Configuration" destination="${mq.queue}" doc:name="Consuming XML Message from Recall Queue" acknowledgementMode="MANUAL"  reconnectionWaitTime="10000" reconnectionAttempts="3" />
+        <message-properties-transformer doc:name="Set Leh Properties" scope="session">
+            <add-message-property key="messageId" value="#[message.inboundProperties.messageId]"/>
+        </message-properties-transformer>
+        <flow-ref name="leh-common-messaging-request-preprocess-subflow" doc:name="LEH -Message Request Preprocess"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <dw:transform-message doc:name="Payload Transformation to Java">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+%namespace ns0 http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1
+%var isrecallReq= (payload.ns0#sendRecall.ns0#Recall.ns0#BusinessId !=null or payload.ns0#sendRecall.ns0#Recall.ns0#CampaignNumber !=null or 
+payload.ns0#sendRecall.ns0#Recall.ns0#EndDate !=null or payload.ns0#sendRecall.ns0#Recall.ns0#ExternalId != null or 
+payload.ns0#sendRecall.ns0#Recall.ns0#ExternalRecallId !=null or payload.ns0#sendRecall.ns0#Recall.ns0#RecallDescription !=null or 
+payload.ns0#sendRecall.ns0#Recall.ns0#RecallName !=null or payload.ns0#sendRecall.ns0#Recall.ns0#SourceSystem !=null or 
+payload.ns0#sendRecall.ns0#Recall.ns0#StartDate !=null)
+---
+{
+	recall-request: {
+		(recall: {
+			(BusinessId: payload.ns0#sendRecall.ns0#Recall.ns0#BusinessId) when (payload.ns0#sendRecall.ns0#Recall.ns0#BusinessId !=null) as :string,
+			(CampaignNumber: payload.ns0#sendRecall.ns0#Recall.ns0#CampaignNumber) when (payload.ns0#sendRecall.ns0#Recall.ns0#CampaignNumber !=null) as :string,
+			(EndDate: payload.ns0#sendRecall.ns0#Recall.ns0#EndDate) when (payload.ns0#sendRecall.ns0#Recall.ns0#EndDate !=null),
+			(ExternalId: payload.ns0#sendRecall.ns0#Recall.ns0#ExternalId) when (payload.ns0#sendRecall.ns0#Recall.ns0#ExternalId != null),
+			(ExternalRecallId: payload.ns0#sendRecall.ns0#Recall.ns0#ExternalRecallId) when (payload.ns0#sendRecall.ns0#Recall.ns0#ExternalRecallId !=null),
+			(RecallDescription: payload.ns0#sendRecall.ns0#Recall.ns0#RecallDescription) when (payload.ns0#sendRecall.ns0#Recall.ns0#RecallDescription !=null),
+			(RecallName: payload.ns0#sendRecall.ns0#Recall.ns0#RecallName) when (payload.ns0#sendRecall.ns0#Recall.ns0#RecallName !=null),
+			(SourceSystem: payload.ns0#sendRecall.ns0#Recall.ns0#SourceSystem) when (payload.ns0#sendRecall.ns0#Recall.ns0#SourceSystem !=null),
+			(StartDate: payload.ns0#sendRecall.ns0#Recall.ns0#StartDate) when (payload.ns0#sendRecall.ns0#Recall.ns0#StartDate !=null)
+		}) when (isrecallReq),
+		recall-vehicles: (payload.ns0#sendRecall.*ns0#recallVehicles default []) filter ($ != null) map ((recallVehicles , indexOfRecallVehicles) -> {
+			(BusinessId: recallVehicles.ns0#BusinessId) when (recallVehicles.ns0#BusinessId !=null) as :string,
+			(ExternalId: recallVehicles.ns0#ExternalId) when (recallVehicles.ns0#ExternalId !=null),
+			(CampaignNumber: recallVehicles.ns0#CampaignNumber) when (recallVehicles.ns0#CampaignNumber !=null) as :string,
+			(ClaimDate: recallVehicles.ns0#ClaimDate) when (recallVehicles.ns0#ClaimDate !=null),
+			(ClaimNumber: recallVehicles.ns0#ClaimNumber) when (recallVehicles.ns0#ClaimNumber !=null) as :string,
+			(RecallStatus: recallVehicles.ns0#RecallStatus) when (recallVehicles.ns0#RecallStatus !=null),
+			(SourceSystem: recallVehicles.ns0#SourceSystem) when (recallVehicles.ns0#SourceSystem !=null),
+			(VIN: recallVehicles.ns0#VIN) when (recallVehicles.ns0#VIN !=null) as :string
+		})
+	}
+}
+	]]></dw:set-payload>
+        </dw:transform-message>
+        <set-session-variable variableName="originalPayload" value="#[payload]" doc:name="Set Original Payload"/>
+        <dw:transform-message doc:name="JAVA to JSON - Transformation of Payload">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+        <http:request config-ref="Invoke_System_API" path="${recall.sys.http.listener.path}" method="POST" doc:name="HTTP Invoke System API">
+            <http:request-builder>
+                <http:header headerName="transactionId" value="#[sessionVars.transactionId]"/>
+
+            </http:request-builder>
+            <!--                 <http:request-builder>
+                                                                <http:header headerName="messageId" value="#[sessionVars.messageId]"/>
+                                                            </http:request-builder>	 -->
+        </http:request>
+        <anypoint-mq:ack config-ref="Anypoint_MQ_Configuration" doc:name="Acknowledging Recall Queue"/>
+
+        <flow-ref name="leh-common-trans-log-complete-subflow" doc:name="leh-common-service-log-complete-subflow"/>
+        <exception-strategy ref="global-exception-strategy" doc:name="Reference Exception Strategy"/>
+
+    </flow>
+
+  
+    <flow name="authentication-exp-flow">
+        <set-variable variableName="clientId" value="${https.auth.client.id}" doc:name="Set Client Id"/>
+        <set-variable variableName="clientSecret" value="${https.auth.client.secret}" doc:name="Set Client Secret"/>
+
+        <validation:is-true message="Authorisation error - client id or secret invalid" expression="#[message.inboundProperties.'x-client-id' == flowVars.clientId  &amp;&amp;  message.inboundProperties.'x-client-secret' == flowVars.clientSecret ]" doc:name="Validate - Client Id and Client Secret" exceptionClass="org.mule.api.security.UnauthorisedException"/>
+        <catch-exception-strategy doc:name="Catch Exception Strategy">
+            <set-property propertyName="http.status" value="#[403]" doc:name="Set Custom Authentication Failure HTTP Status Code"/>
+        </catch-exception-strategy> 
+    </flow>
+
+    
+</mule>

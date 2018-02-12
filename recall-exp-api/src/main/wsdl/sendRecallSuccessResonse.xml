@@ -1,0 +1,14 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns01:sendRecallResponse xmlns:ns01="http://www.cloudhub.io/schemas/class/InchcapeRecallInterface_v1">
+         <ns01:result>
+            <ns0:results xmlns:ns0="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+               <ns0:status>success</ns0:status>
+               <ns0:http-status-code>200</ns0:http-status-code>
+               <ns0:summary>Success response message</ns0:summary>
+               <ns0:request-timestamp>2017-09-14T16:09:30</ns0:request-timestamp>
+            </ns0:results>
+         </ns01:result>
+      </ns01:sendRecallResponse>
+   </soap:Body>
+</soap:Envelope>

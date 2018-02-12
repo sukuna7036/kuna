@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1" xmlns:gen="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <inc:sendVehicleResponse>
+         <inc:result>
+            <gen:status>success</gen:status>
+            <gen:httpStatusCode>200</gen:httpStatusCode>
+            <gen:summary>Success response message</gen:summary>
+            <gen:timestamp>2017-09-14T12:34:56</gen:timestamp>
+         </inc:result>
+      </inc:sendVehicleResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

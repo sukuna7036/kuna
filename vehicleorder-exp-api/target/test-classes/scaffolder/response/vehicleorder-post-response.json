@@ -1,0 +1,22 @@
+{
+	"sendVehicleOrderResponse" : {
+		"@xmlns:xmlns" : "http://soap.sforce.com/schemas/class/InchcapeCustomerInterface_v1",
+		"@xmlns:InboundIntegrationResponse" : "http://soap.sforce.com/schemas/class/GenericWebServiceInterface",
+		"@xmlns:soapenv" : "http://schemas.xmlsoap.org/soap/envelope/",
+		"@xmlns:xsi" : "http://www.w3.org/2001/XMLSchema-instance",
+		"result" : {
+			"InboundIntegrationResponse:errorCount" : "0",
+			"InboundIntegrationResponse:results" : {
+				"InboundIntegrationResponse:externalId" : "eb03d0e9-99f9-45cb-999e-5da8d77f24d1",
+				"InboundIntegrationResponse:objectId" : {
+					"@xsi:nil" : "true"
+				},
+				"InboundIntegrationResponse:requestId" : "a1o3E000009rW9wQAE",
+				"InboundIntegrationResponse:status" : "success",
+				"InboundIntegrationResponse:statusMessage" : "The request was processed successfully"
+			},
+			"InboundIntegrationResponse:status" : "success",
+			"InboundIntegrationResponse:successCount" : "1"
+		}
+	}
+}

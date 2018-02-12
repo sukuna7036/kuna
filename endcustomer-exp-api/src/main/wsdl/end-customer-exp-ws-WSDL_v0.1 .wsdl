@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Web Services API : InchcapeEndCustomerInterface_v1-->
+<definitions targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeEndCustomerInterface_v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cloudhub.io/schemas/class/InchcapeEndCustomerInterface_v1" xmlns:InboundIntegrationResponse="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+  <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+      <xsd:complexType name="InboundIntegrationResponse">
+	   <xsd:sequence>
+	  <xsd:element name="result" nillable="true">
+	    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="status" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="http-status-code" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="summary" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="description" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="request-timestamp" minOccurs="1" type="xsd:dateTime" nillable="false"/>
+        </xsd:sequence>
+      </xsd:complexType>
+	   </xsd:element>
+	    </xsd:sequence>
+	    </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeEndCustomerInterface_v1">
+      <xsd:import namespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface"/>
+      <!--Defining character length restricted strings-->
+      <xsd:simpleType name="LimitedString_10">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_20">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="20"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_40">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="40"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_80">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="80"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="LimitedString_255">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="255"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="Customer">
+            <xsd:sequence>
+              <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="ExternalCustomerId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="IdentificationNumber" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="TaxationId" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="RecordType" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="Salutation" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="Gender" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="FirstName" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="LastName" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+              <xsd:element name="CompanyName" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="BirthDate" minOccurs="0" type="xsd:date" nillable="true"/>
+              <xsd:element name="ContactSalutation" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="ContactFirstName" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="ContactLastName" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+              <xsd:element name="ContactBirthDate" minOccurs="0" type="xsd:date" nillable="true"/>
+              <xsd:element name="EmailAddress" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="EmailAddressValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="EmailAddressValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="StandardAddressStreet" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="StandardAddressCity" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="StandardAddressPostcode" minOccurs="0" type="tns:LimitedString_10" nillable="true"/>
+              <xsd:element name="StandardAddressState" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="StandardAddressCountry" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="StandardAddressDPID" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="StandardAddressRTS" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="StandardAddressValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="StandardAddressValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="MailingAddressStreet" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="MailingAddressCity" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="MailingAddressState" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="MailingAddressCountry" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="MailingAddressPostcode" minOccurs="0" type="tns:LimitedString_10" nillable="true"/>
+              <xsd:element name="MailingAddressDPID" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+              <xsd:element name="MailingAddressValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="MailingAddressValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="MailingAddressRTS" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="HomePhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="HomePhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="HomePhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="WorkPhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="WorkPhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="WorkPhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="MobilePhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="MobilePhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="MobilePhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="BusinessPhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+              <xsd:element name="BusinessPhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="BusinessPhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+            </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CustomerBrandPreference">
+            <xsd:sequence>
+              <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="ExternalEntityId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="Brand" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="Type" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="ResearchOptIn" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="MailOptIn" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="PhoneOptIn" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="SMSOptIn" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="EmailOptIn" minOccurs="0" type="xsd:boolean" nillable="true"/>
+              <xsd:element name="SubscriptionStatus" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="UnsubscribeReason" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+              <xsd:element name="SubscriptionSource" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+            </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CustomerExternalID">
+            <xsd:sequence>
+              <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="ExternalEntityId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+              <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+              <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+            </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="sendEndCustomer">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="customer" type="tns:Customer" nillable="false"/>
+            <xsd:element name="brandPreferences" minOccurs="0" maxOccurs="unbounded" type="tns:CustomerBrandPreference" nillable="true"/>
+            <xsd:element name="externalIds" minOccurs="0" maxOccurs="unbounded" type="tns:CustomerExternalID" nillable="true"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="sendEndCustomerResponse" type="InboundIntegrationResponse:InboundIntegrationResponse"/>
+    </xsd:schema>
+  </types>
+  <!--Operation Messages-->
+  <message name="sendEndCustomerRequest">
+    <part element="tns:sendEndCustomer" name="parameters"/>
+  </message>
+  <message name="sendEndCustomerResponse">
+    <part element="tns:sendEndCustomerResponse" name="parameters"/>
+  </message>
+  <portType name="InchcapeEndCustomerInterface_v1PortType">
+    <operation name="sendEndCustomer">
+      <input message="tns:sendEndCustomerRequest"/>
+      <output message="tns:sendEndCustomerResponse"/>
+    </operation>
+  </portType>
+  <binding name="InchcapeEndCustomerInterface_v1Binding" type="tns:InchcapeEndCustomerInterface_v1PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="sendEndCustomer">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal" parts="parameters"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="InchcapeEndCustomerInterface_v1Service">
+    <documentation/>
+    <port binding="tns:InchcapeEndCustomerInterface_v1Binding" name="InchcapeEndCustomerInterface_v1">
+      <soap:address location="https://localhost:8086/InchcapeEndCustomerInterface_v1"/>
+    </port>
+  </service>
+</definitions>

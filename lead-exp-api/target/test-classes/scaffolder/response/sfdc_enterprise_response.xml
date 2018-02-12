@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loginResponse xmlns="urn:enterprise.soap.sforce.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<result>
+<metadataServerUrl>https://cs82.salesforce.com/services/Soap/m/40.0/00D3E0000000MtX</metadataServerUrl>
+<passwordExpired>false</passwordExpired>
+<sandbox>true</sandbox>
+<serverUrl>https://cs82.salesforce.com/services/Soap/c/40.0/00D3E0000000MtX/0DF6E00000000FB</serverUrl>
+<sessionId>00D3E0000000MtX!AREAQKY4X2C08e9NSi72v4_2vCTB0n.HAvmKbvMGhuaA0p0GtUXQp_7WP1ZldDfZDy.0XpB0Qc0_FdwSOhV4ua6bXGMgjuCZ</sessionId>
+<userId>0053E000000xDpfQAE</userId>
+<userInfo>
+<accessibilityMode>false</accessibilityMode>
+<chatterExternal>false</chatterExternal>
+<currencySymbol>£</currencySymbol>
+<orgAttachmentFileSizeLimit>5242880</orgAttachmentFileSizeLimit>
+<orgDefaultCurrencyIsoCode>GBP</orgDefaultCurrencyIsoCode>
+<orgDefaultCurrencyLocale>en_GB</orgDefaultCurrencyLocale>
+<orgDisallowHtmlAttachments>false</orgDisallowHtmlAttachments>
+<orgHasPersonAccounts>true</orgHasPersonAccounts>
+<organizationId>00D3E0000000MtXUAU</organizationId>
+<organizationMultiCurrency>false</organizationMultiCurrency>
+<organizationName>Inchcape PLC</organizationName>
+<profileId>00e3E000000M1KeQAK</profileId>
+<roleId>00E3E000000JUNvUAO</roleId>
+<sessionSecondsValid>3600</sessionSecondsValid>
+<userDefaultCurrencyIsoCode xsi:nil="true"/>
+<userEmail>salesforcesupport-inchcape@ideascience.com</userEmail>
+<userFullName>Global Portal Integration</userFullName>
+<userId>0053E000000xDpfQAE</userId>
+<userLanguage>en_US</userLanguage>
+<userLocale>en_GB</userLocale>
+<userName>global.portal.integration@inchcape.com.subausys01</userName>
+<userTimeZone>Europe/London</userTimeZone>
+<userType>Standard</userType>
+<userUiSkin>Theme3</userUiSkin>
+</userInfo>
+</result>
+</loginResponse>

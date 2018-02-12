@@ -1,0 +1,31 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleInterface_v1">
+
+   <soapenv:Body>
+      <inc:sendVehicle>
+       		 	 
+         <!--Zero or more repetitions:-->
+         <inc:vehiclePolicies>
+           	 <inc:BusinessId>Trivett Australia</inc:BusinessId>
+            	<inc:ExternalId>palash_2021</inc:ExternalId>
+            	<inc:ExternalVehicleId>Palash2021</inc:ExternalVehicleId>
+			<inc:ExternalCustomerId>ads5231</inc:ExternalCustomerId>
+           	 <inc:SourceSystem>VMS</inc:SourceSystem>
+            	<inc:VIN>JXVC123456DC12345</inc:VIN>
+			<inc:Provider>Allianz</inc:Provider>
+			<inc:PolicyStatus>Active</inc:PolicyStatus>
+			<inc:Type>Extended Warranty</inc:Type>
+           	 <inc:StartDate>2020-02-10</inc:StartDate>
+           	 <inc:EndDate>2023-02-10</inc:EndDate>
+			<inc:InceptionDate>2017-02-10</inc:InceptionDate>
+			<inc:LinkToOwner>false</inc:LinkToOwner>
+			<inc:ProviderPolicyNumber>87RX123214</inc:ProviderPolicyNumber>
+			<inc:ProviderStatus>Active</inc:ProviderStatus>
+			<inc:ProviderMarketing>true</inc:ProviderMarketing>
+			<inc:InvalidReason>Age Invalid</inc:InvalidReason>
+			<inc:PendingAction>Activate</inc:PendingAction>
+			<inc:ProvisioningStatus>Pending</inc:ProvisioningStatus>
+			<inc:ProvisioningError>Test</inc:ProvisioningError>
+         </inc:vehiclePolicies>
+      </inc:sendVehicle>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+
+	<!--These are some of the loggers you can enable. 
+	    There are several more you can find in the documentation. 
+        Besides this log4j configuration, you can also use Java VM environment variables
+        to enable other logs like network (-Djavax.net.debug=ssl or all) and 
+        Garbage Collector (-XX:+PrintGC). These will be append to the console, so you will 
+        see them in the mule_ee.log file. -->
+
+
+    <Appenders>
+        <RollingFile name="file" fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}account-exp-ws.log" 
+                 filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}account-exp-ws-%i.log">
+            <PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
+            <SizeBasedTriggeringPolicy size="10 MB" />
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+		<!--  Related to Global Logging and Error Handling(LEH) Framework -->
+        <RollingFile name="commonLog" 
+                    fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}elk${sys:file.separator}leh-common-trans-logs.log" 
+                 filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}elk${sys:file.separator}leh-common-trans-logs-%i.log">
+            <!-- <PatternLayout pattern="%m%n" /> -->
+            <JsonLayout compact="true" eventEol="true"/>
+            <SizeBasedTriggeringPolicy size="10 MB" />
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <RollingFile name="commonErrorLog" 
+                     fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}elk${sys:file.separator}leh-common-trans-error-logs.log" 
+                  filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}elk${sys:file.separator}leh-common-trans-error-logs-%i.log">
+            <!-- <PatternLayout pattern="%m%n" /> -->
+            <JsonLayout compact="true" eventEol="true"/>
+            <SizeBasedTriggeringPolicy size="10 MB" />
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <RollingFile name="commonAuditLog" 
+                     fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}mule${sys:file.separator}leh-common-audit-logs.log" 
+                  filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}mule${sys:file.separator}leh-common-audit-logs%i.log">
+            <PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
+            <SizeBasedTriggeringPolicy size="10 MB" />
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <RollingFile name="commonSfdcLog" 
+                     fileName="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}sfdc${sys:file.separator}leh-common-trans-sfdc-logs.log" 
+                  filePattern="${sys:mule.home}${sys:file.separator}logs${sys:file.separator}sfdc${sys:file.separator}leh-common-trans-sfdc-logs-%i.log">
+            <!-- <PatternLayout pattern="%m%n" /> -->
+            <JsonLayout compact="true" eventEol="true"/>
+            <SizeBasedTriggeringPolicy size="10 MB" />
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+    </Appenders>
+    <Loggers>
+    	
+    	
+		<!-- Http Logger shows wire traffic on DEBUG -->
+		<AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger" level="WARN"/>
+	
+		<!-- JDBC Logger shows queries and parameters values on DEBUG -->
+		<AsyncLogger name="com.mulesoft.mule.transport.jdbc" level="WARN"/>
+    
+        <!-- CXF is used heavily by Mule for web services -->
+        <AsyncLogger name="org.apache.cxf" level="WARN"/>
+
+        <!-- Apache Commons tend to make a lot of noise which can clutter the log-->
+        <AsyncLogger name="org.apache" level="WARN"/>
+
+        <!-- Reduce startup noise -->
+        <AsyncLogger name="org.springframework.beans.factory" level="WARN"/>
+
+        <!-- Mule classes -->
+        <AsyncLogger name="org.mule" level="INFO"/>
+        <AsyncLogger name="com.mulesoft" level="INFO"/>
+
+        <!-- Reduce DM verbosity -->
+        <AsyncLogger name="org.jetel" level="WARN"/>
+        <AsyncLogger name="Tracking" level="WARN"/>
+        
+        <AsyncRoot level="INFO">
+            <AppenderRef ref="file" />
+        </AsyncRoot>
+        
+		<!--  Related to Global Logging and Error Handling(LEH) Framework -->
+        <AsyncLogger name="com.ic.leh.trans.log" level="INFO">
+        	<AppenderRef ref="commonLog" />
+        </AsyncLogger>
+        <AsyncLogger name="com.ic.leh.trans.error.log" level="ERROR">
+        	<AppenderRef ref="commonErrorLog" />
+        </AsyncLogger>
+        <AsyncLogger name="com.ic.leh.trans.sfdc.log" level="ERROR">
+        	<AppenderRef ref="commonSfdcLog" />
+        </AsyncLogger>
+        <AsyncLogger name="com.ic.leh.audit" level="INFO">
+        	<AppenderRef ref="commonAuditLog" />
+        </AsyncLogger>
+		       
+    </Loggers>
+</Configuration>

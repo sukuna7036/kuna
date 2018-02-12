@@ -1,0 +1,32 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeAccountInterface_v1" xmlns:gen="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+   <soapenv:Header>
+      <inc:DebuggingInfo>
+         <inc:debugLog>?</inc:debugLog>
+      </inc:DebuggingInfo>
+   </soapenv:Header>
+   <soapenv:Body>
+      <inc:sendAccountResponse>
+         <inc:result>
+            <!--Optional:-->
+            <gen:errorCount>?</gen:errorCount>
+            <!--Zero or more repetitions:-->
+            <gen:results>
+               <!--Optional:-->
+               <gen:status>?</gen:status>
+               <!--Optional:-->
+               <gen:http-status-code>?</gen:http-status-code>
+               <!--Optional:-->
+               <gen:summary>?</gen:summary>
+               <!--Optional:-->
+               <gen:description>?</gen:description>
+               <!--Optional:-->
+               <gen:timestamp>?</gen:timestamp>
+            </gen:results>
+            <!--Optional:-->
+            <gen:status>?</gen:status>
+            <!--Optional:-->
+            <gen:successCount>?</gen:successCount>
+         </inc:result>
+      </inc:sendAccountResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

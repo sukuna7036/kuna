@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:secure-property-placeholder="http://www.mulesoft.org/schema/mule/secure-property-placeholder" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-property-placeholder http://www.mulesoft.org/schema/mule/secure-property-placeholder/current/mule-secure-property-placeholder.xsd">
+
+	<!--  Related to Global Logging and Error Handling(LEH) Framework -->
+	<spring:beans>
+	    <spring:import resource="classpath:leh-globals.xml"/>
+		<spring:import resource="classpath:leh-common-request-preprocess.xml"/>
+		<spring:import resource="classpath:leh-common-transaction-loggers.xml"/>
+		<spring:import resource="classpath:error-handling.xml"/>
+	</spring:beans>
+
+	<anypoint-mq:config name="Anypoint_MQ_Configuration" doc:name="Anypoint MQ Configuration" acknowledgementMode="MANUAL" acknowledgementTimeout="${mq.acknowledgement.timeout}" maxRedelivery="${mq.max.redelivery}" pollingTime="${mq.polling.time}">
+        <anypoint-mq:provider url="${mq.url}" clientId="${mq.client.id}" clientSecret="${mq.client.secret}"/>
+    </anypoint-mq:config>
+    
+    <secure-property-placeholder:config name="Secure_Property_Placeholder" key="${secure.key}" location="classpath:secure.${mule.env}.properties,${mule.env}.properties,common.properties" ignoreResourceNotFound="true" doc:name="Secure Property Placeholder" systemPropertiesMode="OVERRIDE"/>
+
+	<http:listener-config name="api-httpListenerConfig" host="${https.host}" port="${https.private.port}" doc:name="HTTP Listener Configuration" protocol="HTTPS">
+        
+		<tls:context>
+            <tls:key-store type="pkcs12" path="${https.tls.certificate.path}" alias="${https.tls.alias}" keyPassword="${https.tls.key.password}" password="${https.tls.password}"/>
+        </tls:context>
+		
+    </http:listener-config>
+    
+    <http:request-config name="HTTP_Request_Configuration" host="${account.sys.http.listener.host}" port="${account.sys.http.listener.port}" doc:name="HTTP Request Configuration" connectionIdleTimeout="${account.sys.http.listener.timeout}"/>
+    
+</mule>

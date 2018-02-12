@@ -1,0 +1,25 @@
+{
+	"recall-request": {
+		"recall": {
+			"BusinessId": "Toyota Greece",
+			"ExternalId": "73893748793-12082009164500",
+			"SourceSystem": "VMS", 
+			"ExternalRecallId": "00003",
+			"CampaignNumber": "3289", 
+			"RecallName": "Toyota Recall",
+			"RecallDescription": "Recalling Vehicle in Full",
+			"StartDate": "2005-04-20",
+			"EndDate": "2006-05-20"
+		},
+		"recall-vehicles": [{
+			"BusinessId": "Toyota Greece",
+			"ExternalId": "73893748793-12082009164500",
+			"SourceSystem": "VMS", 
+			"CampaignNumber": "3289", 
+			"VIN": "KML789UGR12345698",
+			"ClaimDate": "2016-05-13",
+			"ClaimNumber": "2384732897",
+			"RecallStatus": "Active"
+		}]
+	}
+}

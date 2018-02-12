@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+    
+    <http:listener-config name="lead-exp-api-httpListenerConfig" host="${https.host}" port="${https.private.port}" doc:name="HTTP Listener Configuration" protocol="HTTPS">
+        <tls:context>
+            <tls:key-store type="pkcs12" path="${https.tls.certificate.path}" alias="${https.tls.alias}" keyPassword="${https.tls.key.password}" password="${https.tls.password}"/>
+        </tls:context>
+    </http:listener-config>
+    
+    <apikit:config name="lead-exp-api-config" raml="lead-exp-api.raml" consoleEnabled="${appl.console.enabled}" doc:name="Router" keepRamlBaseUri="false"/>
+    
+    <flow name="lead-exp-api-main">
+        <http:listener config-ref="lead-exp-api-httpListenerConfig" path="${https.path}" doc:name="HTTP Listener - to Receive Rest based Lead Request"/>
+
+        <flow-ref name="leh-common-request-preprocess-subflow" doc:name="LEH - Request Preprocess "/>
+        <flow-ref name="leh-common-trans-log-start-subflow" doc:name="LEH - Log Transaction Start"/>
+        <flow-ref name="leh-common-service-log-start-subflow" doc:name="LEH - Log Service Start"/>
+        <flow-ref name="authentication-exp-flow" doc:name="Perform User Authentication"/>
+        <choice doc:name="Check for Custom Authentication Failure HTTP Status Code">
+            <when expression="#[message.outboundProperties.'http.status' == 403]">
+                <dw:transform-message doc:name="Transform - Create Authentication Failure Message">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+
+---
+{
+		results: {
+		status: "error",
+		http-status-code: 403,
+		summary:"Invalid Credentials",
+		description:"Authorization failed due to invalid credentials",
+		request-timestamp:now as :datetime {format: "yyyy-MM-dd HH:mm:ss.SSS"} 
+	}
+}]]></dw:set-payload>
+                </dw:transform-message>
+            </when>
+            <otherwise>
+                <apikit:router config-ref="lead-exp-api-config" doc:name="APIkit Router"/>
+            </otherwise>
+        </choice>
+        <exception-strategy ref="global-exception-strategy" doc:name="Reference Exception Strategy"/>
+
+    </flow>
+
+    <flow name="post:/lead:application/json:lead-exp-api-config">
+
+        <anypoint-mq:publish config-ref="Anypoint_MQ_Configuration" destination="${mq.queue}" doc:name="Publishing Json Message to Lead Exchange">
+            <anypoint-mq:message-builder>
+                <anypoint-mq:properties>
+                    <anypoint-mq:property propertyName="retryCount" value="0"/>
+                    <anypoint-mq:property propertyName="transactionId" value="#[sessionVars.transactionId]"/>
+
+                </anypoint-mq:properties>
+            </anypoint-mq:message-builder>
+        </anypoint-mq:publish>
+
+        <dw:transform-message doc:name="Transformation - Create Success Response">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	results: {
+		status: "Success",
+		http-status-code: 200,
+		summary:"Success response message",
+		request-timestamp:now as :datetime {format: "yyyy-MM-dd HH:mm:ss.SSS"}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+
+
+    </flow>
+    
+    <flow name="lead-exp-api-processing-flow">
+        <anypoint-mq:subscriber config-ref="Anypoint_MQ_Configuration" destination="${mq.queue}" doc:name="Consuming Json Message from Lead Queue" acknowledgementMode="MANUAL"  reconnectionWaitTime="10000" reconnectionAttempts="3"  />
+        <message-properties-transformer doc:name="Set Leh Properties" scope="session">
+            <add-message-property key="messageId" value="#[message.inboundProperties.messageId]"/>
+        </message-properties-transformer>
+        <flow-ref name="leh-common-messaging-request-preprocess-subflow" doc:name="leh-common-request-preprocess-subflow"/>
+
+        <dw:transform-message doc:name="Byte Array to JAVA- Transformation of Payload">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+        <set-session-variable variableName="originalPayload" value="#[payload]" doc:name="Set Original Payload"/>
+
+        <dw:transform-message doc:name="JAVA to JSON - Transformation of Payload">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+payload]]></dw:set-payload>
+        </dw:transform-message>
+        <http:request config-ref="Invoke_System_API" path="${lead.sys.http.listener.path}" method="POST" doc:name="HTTP Invoke System API">
+            <http:request-builder>
+                <http:header headerName="transactionId" value="#[sessionVars.transactionId]"/>
+
+            </http:request-builder>
+            <!--                 <http:request-builder>
+                                                                <http:header headerName="messageId" value="#[sessionVars.messageId]"/>
+                                                            </http:request-builder>	 -->
+        </http:request>
+        <anypoint-mq:ack config-ref="Anypoint_MQ_Configuration" doc:name="Acknowledging Lead Queue"/>
+
+        <flow-ref name="leh-common-trans-log-complete-subflow" doc:name="LEH - Log Service Complete"/>
+        <exception-strategy ref="global-exception-strategy" doc:name="Reference Exception Strategy"/>
+
+    </flow>
+    
+    <flow name="authentication-exp-flow">
+        <set-variable variableName="clientId" value="${https.auth.client.id}" doc:name="Set Client Id"/>
+        <set-variable variableName="clientSecret" value="${https.auth.client.secret}" doc:name="Set Client Secret"/>
+
+        <validation:is-true message="Authorisation error - client id or secret invalid" expression="#[message.inboundProperties.'x-client-id' == flowVars.clientId  &amp;&amp;  message.inboundProperties.'x-client-secret' == flowVars.clientSecret ]" doc:name="Validate - Client Id and Client Secret" exceptionClass="org.mule.api.security.UnauthorisedException"/>
+        <catch-exception-strategy doc:name="Catch Exception Strategy">
+            <set-property propertyName="http.status" value="#[403]" doc:name="Set Custom Authentication Failure HTTP Status Code"/>
+        </catch-exception-strategy> 
+    </flow>
+    
+</mule>

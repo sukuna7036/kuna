@@ -1,0 +1,1000 @@
+{
+  "definitions": {}, 
+  "$schema": "http://json-schema.org/draft-06/schema#", 
+  "$id": "http://example.com/example.json", 
+  "type": "object", 
+  "properties": {
+    "lead-request": {
+      "$id": "/properties/lead-request", 
+      "type": "object", 
+      "properties": {
+        "lead": {
+          "$id": "/properties/lead-request/properties/lead", 
+          "type": "object", 
+          "properties": {
+            "ExternalId": {
+              "$id": "/properties/lead-request/properties/lead/properties/ExternalId", 
+              "type": "string", 
+              "title": "The Externalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "1234"
+              ]
+            }, 
+            "IsTestData": {
+              "$id": "/properties/lead-request/properties/lead/properties/IsTestData", 
+              "type": "string", 
+              "title": "The Istestdata Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "BusinessId": {
+              "$id": "/properties/lead-request/properties/lead/properties/BusinessId", 
+              "type": "string", 
+              "title": "The Businessid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "456"
+              ]
+            }, 
+            "CustomerType": {
+              "$id": "/properties/lead-request/properties/lead/properties/CustomerType", 
+              "type": "string", 
+              "title": "The Customertype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Individual"
+              ]
+            }, 
+            "CrmId": {
+              "$id": "/properties/lead-request/properties/lead/properties/CrmId", 
+              "type": "string", 
+              "title": "The Crmid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "43"
+              ]
+            }, 
+            "Salutation": {
+              "$id": "/properties/lead-request/properties/lead/properties/Salutation", 
+              "type": "string", 
+              "title": "The Salutation Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Mr"
+              ]
+            }, 
+            "FirstName": {
+              "$id": "/properties/lead-request/properties/lead/properties/FirstName", 
+              "type": "string", 
+              "title": "The Firstname Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "John"
+              ]
+            }, 
+            "LastName": {
+              "$id": "/properties/lead-request/properties/lead/properties/LastName", 
+              "type": "string", 
+              "title": "The Lastname Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Doe"
+              ]
+            }, 
+            "CompanyName": {
+              "$id": "/properties/lead-request/properties/lead/properties/CompanyName", 
+              "type": "string", 
+              "title": "The Companyname Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "jdoe"
+              ]
+            }, 
+            "BirthDate": {
+              "$id": "/properties/lead-request/properties/lead/properties/BirthDate", 
+              "type": "string", 
+              "title": "The Birthdate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "1962-10-03"
+              ]
+            }, 
+            "EmailAddress": {
+              "$id": "/properties/lead-request/properties/lead/properties/EmailAddress", 
+              "type": "string", 
+              "title": "The Emailaddress Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "jdoe@gmail.com"
+              ]
+            }, 
+            "EmailAddressValid": {
+              "$id": "/properties/lead-request/properties/lead/properties/EmailAddressValid", 
+              "type": "string", 
+              "title": "The Emailaddressvalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "EmailAddressValidatedBy": {
+              "$id": "/properties/lead-request/properties/lead/properties/EmailAddressValidatedBy", 
+              "type": "string", 
+              "title": "The Emailaddressvalidatedby Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "DataTools"
+              ]
+            }, 
+            "HomePhone": {
+              "$id": "/properties/lead-request/properties/lead/properties/HomePhone", 
+              "type": "string", 
+              "title": "The Homephone Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "00343443"
+              ]
+            }, 
+            "HomePhoneValid": {
+              "$id": "/properties/lead-request/properties/lead/properties/HomePhoneValid", 
+              "type": "string", 
+              "title": "The Homephonevalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "HomePhoneValidatedBy": {
+              "$id": "/properties/lead-request/properties/lead/properties/HomePhoneValidatedBy", 
+              "type": "string", 
+              "title": "The Homephonevalidatedby Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "DataTools"
+              ]
+            }, 
+            "MobilePhone": {
+              "$id": "/properties/lead-request/properties/lead/properties/MobilePhone", 
+              "type": "string", 
+              "title": "The Mobilephone Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "864533"
+              ]
+            }, 
+            "MobilePhoneValid": {
+              "$id": "/properties/lead-request/properties/lead/properties/MobilePhoneValid", 
+              "type": "string", 
+              "title": "The Mobilephonevalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "MobilePhoneValidatedBy": {
+              "$id": "/properties/lead-request/properties/lead/properties/MobilePhoneValidatedBy", 
+              "type": "string", 
+              "title": "The Mobilephonevalidatedby Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "DataTools"
+              ]
+            }, 
+            "WorkPhone": {
+              "$id": "/properties/lead-request/properties/lead/properties/WorkPhone", 
+              "type": "string", 
+              "title": "The Workphone Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "6565656"
+              ]
+            }, 
+            "WorkPhoneValid": {
+              "$id": "/properties/lead-request/properties/lead/properties/WorkPhoneValid", 
+              "type": "string", 
+              "title": "The Workphonevalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "WorkPhoneValidatedBy": {
+              "$id": "/properties/lead-request/properties/lead/properties/WorkPhoneValidatedBy", 
+              "type": "string", 
+              "title": "The Workphonevalidatedby Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "DataTools"
+              ]
+            }, 
+            "StandardAddressStreet": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressStreet", 
+              "type": "string", 
+              "title": "The Standardaddressstreet Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Yellow Street"
+              ]
+            }, 
+            "StandardAddressCity": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressCity", 
+              "type": "string", 
+              "title": "The Standardaddresscity Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Melbourne"
+              ]
+            }, 
+            "StandardAddressState": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressState", 
+              "type": "string", 
+              "title": "The Standardaddressstate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Victoria"
+              ]
+            }, 
+            "StandardAddressCountry": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressCountry", 
+              "type": "string", 
+              "title": "The Standardaddresscountry Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Austrailia"
+              ]
+            }, 
+            "StandardAddressPostcode": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressPostcode", 
+              "type": "string", 
+              "title": "The Standardaddresspostcode Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "323"
+              ]
+            }, 
+            "StandardAddressDPID": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressDPID", 
+              "type": "string", 
+              "title": "The Standardaddressdpid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "34"
+              ]
+            }, 
+            "StandardAddressValid": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressValid", 
+              "type": "string", 
+              "title": "The Standardaddressvalid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "StandardAddressValidatedBy": {
+              "$id": "/properties/lead-request/properties/lead/properties/StandardAddressValidatedBy", 
+              "type": "string", 
+              "title": "The Standardaddressvalidatedby Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "DataTools"
+              ]
+            }, 
+            "PostOptIn": {
+              "$id": "/properties/lead-request/properties/lead/properties/PostOptIn", 
+              "type": "string", 
+              "title": "The Postoptin Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "FALSE"
+              ]
+            }, 
+            "SMSOptIn": {
+              "$id": "/properties/lead-request/properties/lead/properties/SMSOptIn", 
+              "type": "string", 
+              "title": "The Smsoptin Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "FALSE"
+              ]
+            }, 
+            "PhoneOptIn": {
+              "$id": "/properties/lead-request/properties/lead/properties/PhoneOptIn", 
+              "type": "string", 
+              "title": "The Phoneoptin Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "FALSE"
+              ]
+            }, 
+            "EmailOptIn": {
+              "$id": "/properties/lead-request/properties/lead/properties/EmailOptIn", 
+              "type": "string", 
+              "title": "The Emailoptin Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "ExternalLeadId": {
+              "$id": "/properties/lead-request/properties/lead/properties/ExternalLeadId", 
+              "type": "string", 
+              "title": "The Externalleadid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "fd3443"
+              ]
+            }, 
+            "RecordType": {
+              "$id": "/properties/lead-request/properties/lead/properties/RecordType", 
+              "type": "string", 
+              "title": "The Recordtype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Brochure Request"
+              ]
+            }, 
+            "LeadForm": {
+              "$id": "/properties/lead-request/properties/lead/properties/LeadForm", 
+              "type": "string", 
+              "title": "The Leadform Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Book a Test Drive"
+              ]
+            }, 
+            "RecordSubtype": {
+              "$id": "/properties/lead-request/properties/lead/properties/RecordSubtype", 
+              "type": "string", 
+              "title": "The Recordsubtype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Finance"
+              ]
+            }, 
+            "DealerID": {
+              "$id": "/properties/lead-request/properties/lead/properties/DealerID", 
+              "type": "string", 
+              "title": "The Dealerid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "3434"
+              ]
+            }, 
+            "LegacyDealerCode": {
+              "$id": "/properties/lead-request/properties/lead/properties/LegacyDealerCode", 
+              "type": "string", 
+              "title": "The Legacydealercode Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "I54354"
+              ]
+            }, 
+            "ExternalDealerID": {
+              "$id": "/properties/lead-request/properties/lead/properties/ExternalDealerID", 
+              "type": "string", 
+              "title": "The Externaldealerid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "E234"
+              ]
+            }, 
+            "Department": {
+              "$id": "/properties/lead-request/properties/lead/properties/Department", 
+              "type": "string", 
+              "title": "The Department Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Promotion"
+              ]
+            }, 
+            "CampaignName": {
+              "$id": "/properties/lead-request/properties/lead/properties/CampaignName", 
+              "type": "string", 
+              "title": "The Campaignname Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Snow"
+              ]
+            }, 
+            "LeadDateTime": {
+              "$id": "/properties/lead-request/properties/lead/properties/LeadDateTime", 
+              "type": "string", 
+              "title": "The Leaddatetime Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2017-03-10T153032"
+              ]
+            }, 
+            "DeliveryMethod": {
+              "$id": "/properties/lead-request/properties/lead/properties/DeliveryMethod", 
+              "type": "string", 
+              "title": "The Deliverymethod Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Download"
+              ]
+            }, 
+            "ClientSource": {
+              "$id": "/properties/lead-request/properties/lead/properties/ClientSource", 
+              "type": "string", 
+              "title": "The Clientsource Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Facebook"
+              ]
+            }, 
+            "ClientCookieID": {
+              "$id": "/properties/lead-request/properties/lead/properties/ClientCookieID", 
+              "type": "string", 
+              "title": "The Clientcookieid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "431932"
+              ]
+            }, 
+            "ThirdPartyVehicleReferenceId": {
+              "$id": "/properties/lead-request/properties/lead/properties/ThirdPartyVehicleReferenceId", 
+              "type": "string", 
+              "title": "The Thirdpartyvehiclereferenceid Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "3434"
+              ]
+            }, 
+            "SourceSystem": {
+              "$id": "/properties/lead-request/properties/lead/properties/SourceSystem", 
+              "type": "string", 
+              "title": "The Sourcesystem Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "VMS"
+              ]
+            }, 
+            "PurchaseType": {
+              "$id": "/properties/lead-request/properties/lead/properties/PurchaseType", 
+              "type": "string", 
+              "title": "The Purchasetype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Other"
+              ]
+            }, 
+            "Purchase_Type_Description": {
+              "$id": "/properties/lead-request/properties/lead/properties/Purchase_Type_Description", 
+              "type": "string", 
+              "title": "The Purchase_type_description Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Description"
+              ]
+            }, 
+            "PurchaseIntention": {
+              "$id": "/properties/lead-request/properties/lead/properties/PurchaseIntention", 
+              "type": "string", 
+              "title": "The Purchaseintention Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "I'm looking to purchase in 6 months or more"
+              ]
+            }, 
+            "PurchaseDate": {
+              "$id": "/properties/lead-request/properties/lead/properties/PurchaseDate", 
+              "type": "string", 
+              "title": "The Purchasedate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2018 - 10 - 10"
+              ]
+            }, 
+            "FleetManagement": {
+              "$id": "/properties/lead-request/properties/lead/properties/FleetManagement", 
+              "type": "string", 
+              "title": "The Fleetmanagement Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "FleetSize": {
+              "$id": "/properties/lead-request/properties/lead/properties/FleetSize", 
+              "type": "string", 
+              "title": "The Fleetsize Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Large"
+              ]
+            }, 
+            "FinanceAmount": {
+              "$id": "/properties/lead-request/properties/lead/properties/FinanceAmount", 
+              "type": "integer", 
+              "title": "The Financeamount Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": 0, 
+              "examples": [
+                100000
+              ]
+            }, 
+            "FinanceTerm": {
+              "$id": "/properties/lead-request/properties/lead/properties/FinanceTerm", 
+              "type": "string", 
+              "title": "The Financeterm Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "1 Year"
+              ]
+            }, 
+            "FinanceInterestRate": {
+              "$id": "/properties/lead-request/properties/lead/properties/FinanceInterestRate", 
+              "type": "number", 
+              "title": "The Financeinterestrate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": 0.0, 
+              "examples": [
+                2.0999999046325684
+              ]
+            }, 
+            "PreferredTestDriveDate": {
+              "$id": "/properties/lead-request/properties/lead/properties/PreferredTestDriveDate", 
+              "type": "string", 
+              "title": "The Preferredtestdrivedate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2017 - 12 - 12"
+              ]
+            }, 
+            "PreferredTestDriveTime": {
+              "$id": "/properties/lead-request/properties/lead/properties/PreferredTestDriveTime", 
+              "type": "string", 
+              "title": "The Preferredtestdrivetime Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Afternoon"
+              ]
+            }, 
+            "Tags": {
+              "$id": "/properties/lead-request/properties/lead/properties/Tags", 
+              "type": "string", 
+              "title": "The Tags Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Learner"
+              ]
+            }, 
+            "Comments": {
+              "$id": "/properties/lead-request/properties/lead/properties/Comments", 
+              "type": "string", 
+              "title": "The Comments Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "First Time Purchaser"
+              ]
+            }, 
+            "VIN": {
+              "$id": "/properties/lead-request/properties/lead/properties/VIN", 
+              "type": "string", 
+              "title": "The Vin Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "5454"
+              ]
+            }, 
+            "RegistrationNumber": {
+              "$id": "/properties/lead-request/properties/lead/properties/RegistrationNumber", 
+              "type": "string", 
+              "title": "The Registrationnumber Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "E34 F44"
+              ]
+            }, 
+            "OdometerReading": {
+              "$id": "/properties/lead-request/properties/lead/properties/OdometerReading", 
+              "type": "string", 
+              "title": "The Odometerreading Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "10"
+              ]
+            }, 
+            "Make": {
+              "$id": "/properties/lead-request/properties/lead/properties/Make", 
+              "type": "string", 
+              "title": "The Make Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Audi"
+              ]
+            }, 
+            "ModelsOfInterest": {
+              "$id": "/properties/lead-request/properties/lead/properties/ModelsOfInterest", 
+              "type": "string", 
+              "title": "The Modelsofinterest Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Tribeca"
+              ]
+            }, 
+            "ModelYear": {
+              "$id": "/properties/lead-request/properties/lead/properties/ModelYear", 
+              "type": "string", 
+              "title": "The Modelyear Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2017"
+              ]
+            }, 
+            "ModelFamily": {
+              "$id": "/properties/lead-request/properties/lead/properties/ModelFamily", 
+              "type": "string", 
+              "title": "The Modelfamily Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "C"
+              ]
+            }, 
+            "Variant": {
+              "$id": "/properties/lead-request/properties/lead/properties/Variant", 
+              "type": "string", 
+              "title": "The Variant Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "B"
+              ]
+            }, 
+            "ModelVariantDescription": {
+              "$id": "/properties/lead-request/properties/lead/properties/ModelVariantDescription", 
+              "type": "string", 
+              "title": "The Modelvariantdescription Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Model Variant Description"
+              ]
+            }, 
+            "ModelDescription": {
+              "$id": "/properties/lead-request/properties/lead/properties/ModelDescription", 
+              "type": "string", 
+              "title": "The Modeldescription Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Model Description"
+              ]
+            }, 
+            "Series": {
+              "$id": "/properties/lead-request/properties/lead/properties/Series", 
+              "type": "string", 
+              "title": "The Series Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "3"
+              ]
+            }, 
+            "BodyType": {
+              "$id": "/properties/lead-request/properties/lead/properties/BodyType", 
+              "type": "string", 
+              "title": "The Bodytype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Saloon"
+              ]
+            }, 
+            "EngineDescription": {
+              "$id": "/properties/lead-request/properties/lead/properties/EngineDescription", 
+              "type": "string", 
+              "title": "The Enginedescription Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "1.9"
+              ]
+            }, 
+            "Transmission": {
+              "$id": "/properties/lead-request/properties/lead/properties/Transmission", 
+              "type": "string", 
+              "title": "The Transmission Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Automatic"
+              ]
+            }, 
+            "FuelType": {
+              "$id": "/properties/lead-request/properties/lead/properties/FuelType", 
+              "type": "string", 
+              "title": "The Fueltype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Diesel"
+              ]
+            }, 
+            "ExteriorColour": {
+              "$id": "/properties/lead-request/properties/lead/properties/ExteriorColour", 
+              "type": "string", 
+              "title": "The Exteriorcolour Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Blue"
+              ]
+            }, 
+            "Price": {
+              "$id": "/properties/lead-request/properties/lead/properties/Price", 
+              "type": "string", 
+              "title": "The Price Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "29500"
+              ]
+            }, 
+            "URL": {
+              "$id": "/properties/lead-request/properties/lead/properties/URL", 
+              "type": "string", 
+              "title": "The Url Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "www.google.com"
+              ]
+            }, 
+            "ImageURL": {
+              "$id": "/properties/lead-request/properties/lead/properties/ImageURL", 
+              "type": "string", 
+              "title": "The Imageurl Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "www.google.com"
+              ]
+            }, 
+            "StockNumber": {
+              "$id": "/properties/lead-request/properties/lead/properties/StockNumber", 
+              "type": "string", 
+              "title": "The Stocknumber Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "1234"
+              ]
+            }, 
+            "TradeInAvailable": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInAvailable", 
+              "type": "string", 
+              "title": "The Tradeinavailable Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "TRUE"
+              ]
+            }, 
+            "TradeInMake": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInMake", 
+              "type": "string", 
+              "title": "The Tradeinmake Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "VW"
+              ]
+            }, 
+            "TradeInModel": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInModel", 
+              "type": "string", 
+              "title": "The Tradeinmodel Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Golf"
+              ]
+            }, 
+            "TradeInModelYear": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInModelYear", 
+              "type": "string", 
+              "title": "The Tradeinmodelyear Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2011"
+              ]
+            }, 
+            "TradeInColour": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInColour", 
+              "type": "string", 
+              "title": "The Tradeincolour Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Silver"
+              ]
+            }, 
+            "TradeInOdometerReading": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInOdometerReading", 
+              "type": "string", 
+              "title": "The Tradeinodometerreading Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "10"
+              ]
+            }, 
+            "TradeInDetailsUrl": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInDetailsUrl", 
+              "type": "string", 
+              "title": "The Tradeindetailsurl Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "www.google.com"
+              ]
+            }, 
+            "TradeInVehicleCondition": {
+              "$id": "/properties/lead-request/properties/lead/properties/TradeInVehicleCondition", 
+              "type": "string", 
+              "title": "The Tradeinvehiclecondition Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Poor"
+              ]
+            }, 
+            "PartNumber": {
+              "$id": "/properties/lead-request/properties/lead/properties/PartNumber", 
+              "type": "string", 
+              "title": "The Partnumber Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "e45"
+              ]
+            }, 
+            "DropOffTime": {
+              "$id": "/properties/lead-request/properties/lead/properties/DropOffTime", 
+              "type": "string", 
+              "title": "The Dropofftime Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "6:30AM"
+              ]
+            }, 
+            "PickUpTime": {
+              "$id": "/properties/lead-request/properties/lead/properties/PickUpTime", 
+              "type": "string", 
+              "title": "The Pickuptime Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "6:30PM"
+              ]
+            }, 
+            "ServiceDate": {
+              "$id": "/properties/lead-request/properties/lead/properties/ServiceDate", 
+              "type": "string", 
+              "title": "The Servicedate Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "2018-10-10"
+              ]
+            }, 
+            "PreviouslyServicedHere": {
+              "$id": "/properties/lead-request/properties/lead/properties/PreviouslyServicedHere", 
+              "type": "string", 
+              "title": "The Previouslyservicedhere Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "FALSE"
+              ]
+            }, 
+            "ServiceInterval": {
+              "$id": "/properties/lead-request/properties/lead/properties/ServiceInterval", 
+              "type": "string", 
+              "title": "The Serviceinterval Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "100000KM"
+              ]
+            }, 
+            "ServiceType": {
+              "$id": "/properties/lead-request/properties/lead/properties/ServiceType", 
+              "type": "string", 
+              "title": "The Servicetype Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Other"
+              ]
+            }, 
+            "TransportRequirements": {
+              "$id": "/properties/lead-request/properties/lead/properties/TransportRequirements", 
+              "type": "string", 
+              "title": "The Transportrequirements Schema.", 
+              "description": "An explanation about the purpose of this instance.", 
+              "default": "", 
+              "examples": [
+                "Taxi Booking"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

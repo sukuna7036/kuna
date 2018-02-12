@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mock="http://www.mulesoft.org/schema/mule/mock" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/mock/current/mule-mock.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd">
+    <munit:config mock-connectors="false" mock-inbounds="false" name="munit" doc:name="MUnit configuration"/>
+    <spring:beans>
+        <spring:import resource="classpath:vehicleorder-exp-api.xml"/>
+        <spring:import resource="classpath:globals.xml"/>
+    </spring:beans>
+    <munit:test name="vehicleorder-exp-api-test-suite-api-mainTest" description="This test case is used to  validate the succsess response of the vehicle order exp api by validating a part of payload using assert equals.">
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publishing XML Message to VehicleOrder Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publishing XML Message to VehicleOrder Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming XML Message from VehicleOrder Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming XML Message from VehicleOrder Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP Invoke System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP Invoke System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <munit:set payload="#[getResource('scaffolder/request/vehicleorder-exp-request.xml').asString()]" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="${https.auth.client.id}"/>
+                <munit:inbound-property key="x-client-secret" value="${https.auth.client.secret}"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="api-main"/>
+        <set-payload value="#[getResource('scaffolder/request/vehicleorder-exp-request.xml').asString()]" doc:name="Set Payload"/>
+        <flow-ref name="vehicleorder-exp-apiFlow" doc:name="Flow Reference"/>
+        <mock:verify-call messageProcessor=".*:.*" times="1" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP Invoke System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="vehicleorder-exp-api-test-suite-api-mainTest-failure" description="This test case is used to  validate the failure response of the vehicle order exp api by verifying the number of calls.">
+        <munit:set payload="#[getResource('scaffolder/request/vehicleorder-exp-error-request.xml').asString()]" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="tset"/>
+                <munit:inbound-property key="x-client-secret" value="test"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="api-main"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <munit:assert-on-equals expectedValue="#[true]" actualValue="#[payload.contains('error')]" doc:name="Assert Equals"/>
+    </munit:test>
+    <munit:test name="vehicleorder-exp-api-test-suite-api-main-soapfault" description="Test">
+        <munit:set payload="#[getResource('scaffolder/request/vehicleorder-exp-soapfault.xml').asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="test"/>
+                <munit:inbound-property key="x-client-secret" value="test"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <mock:verify-call messageProcessor=".*:.*" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Transformation - Create Success/Failure Response']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+</mule>

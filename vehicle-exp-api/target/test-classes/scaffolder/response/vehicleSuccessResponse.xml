@@ -1,0 +1,6 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><results>
+  <status>Success</status>
+  <http-status-code>200</http-status-code>
+  <summary>Success response message</summary>
+  <request-timestamp>2017-09-22T18:52:09.758+05:30</request-timestamp>
+</results></soap:Body></soap:Envelope>

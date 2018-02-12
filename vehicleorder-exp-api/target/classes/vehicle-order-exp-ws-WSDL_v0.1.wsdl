@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Web Services API : InchcapeVehicleOrderInterface_v1
+-->
+<definitions targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeVehicleOrderInterface_v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cloudhub.io/schemas/class/InchcapeVehicleOrderInterface_v1" xmlns:InboundIntegrationResponse="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+ <types>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+      <xsd:complexType name="InboundIntegrationResponse">
+	   <xsd:sequence>
+	  <xsd:element name="result" nillable="true">
+	    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="status" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="http-status-code" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="summary" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="description" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="request-timestamp" minOccurs="1" type="xsd:dateTime" nillable="false"/>
+        </xsd:sequence>
+      </xsd:complexType>
+	   </xsd:element>
+	    </xsd:sequence>
+	    </xsd:complexType>
+    </xsd:schema>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeVehicleOrderInterface_v1">
+   <xsd:import namespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface"/>
+   <!--Defining character length restricted strings-->
+    <xsd:simpleType name="LimitedString_10">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="10"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_20">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="20"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_35">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="35"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_50">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="50"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_80">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="80"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_255">
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="255"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedString_4">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+   <xsd:simpleType name="LimitedDouble_99">
+        <xsd:restriction base="xsd:double">
+          <xsd:maxInclusive value="99"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="LimitedDouble_9999999999">
+        <xsd:restriction base="xsd:double">
+          <xsd:maxInclusive value="9999999999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+   <xsd:complexType name="VehicleOrder">
+      <xsd:sequence>
+       <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="ExternalCustomerId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+       <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ExternalOrderId" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="OrderNumber" minOccurs="1" type="tns:LimitedString_50" nillable="false"/>
+       <xsd:element name="OrderStatus" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="OrderAmount" minOccurs="0" type="tns:LimitedDouble_9999999999" nillable="true"/>
+       <xsd:element name="OrderBalance" minOccurs="0" type="tns:LimitedDouble_9999999999" nillable="true"/>
+       <xsd:element name="DealerName" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="DealerEmailAddress" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+       <xsd:element name="ExternalVehicleId" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+       <xsd:element name="VIN" minOccurs="0" type="tns:LimitedString_35" nillable="true"/>
+       <xsd:element name="Make" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+       <xsd:element name="ModelCode" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+       <xsd:element name="InteriorColourCode" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+       <xsd:element name="ExteriorColourCode" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+       <xsd:element name="ModelName" minOccurs="0" type="tns:LimitedString_50" nillable="true"/>
+       <xsd:element name="ModelVariant" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ModelDescription" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ModelYear" minOccurs="0" type="tns:LimitedString_4" nillable="true"/>
+       <xsd:element name="InteriorColour" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="ExteriorColour" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="Transmission" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="FuelType" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="CylinderCount" minOccurs="0" type="tns:LimitedDouble_99" nillable="true"/>
+       <xsd:element name="DocumentURL" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+       <xsd:element name="OrderURL" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="sendVehicleOrder">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="VehicleOrder" type="tns:VehicleOrder" nillable="false"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="sendVehicleOrderResponse" type="InboundIntegrationResponse:InboundIntegrationResponse"/>
+
+  </xsd:schema>
+ </types>
+ <!-- Operation Messages -->
+ <message name="sendVehicleOrderRequest">
+  <part element="tns:sendVehicleOrder" name="parameters"/>
+ </message>
+ <message name="sendVehicleOrderResponse">
+  <part element="tns:sendVehicleOrderResponse" name="parameters"/>
+ </message>
+ <portType name="InchcapeVehicleOrderInterface_v1PortType">
+  <operation name="sendVehicleOrder">
+   <input message="tns:sendVehicleOrderRequest"/>
+   <output message="tns:sendVehicleOrderResponse"/>
+  </operation>
+ </portType>
+ <binding name="InchcapeVehicleOrderInterface_v1Binding" type="tns:InchcapeVehicleOrderInterface_v1PortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sendVehicleOrder">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal" parts="parameters"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+  </operation>
+ </binding>
+ <service name="InchcapeVehicleOrderInterface_v1Service">
+  <documentation></documentation>
+  <port binding="tns:InchcapeVehicleOrderInterface_v1Binding" name="InchcapeVehicleOrderInterface_v1">
+   <soap:address location="https://localhost:8094/InchcapeVehicleOrderInterface_v1"/>
+  </port>
+ </service>
+</definitions>

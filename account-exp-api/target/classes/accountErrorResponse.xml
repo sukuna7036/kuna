@@ -1,0 +1,17 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns01:sendAccountResponse xmlns:ns01="http://www.cloudhub.io/schemas/class/InchcapeAccountInterface_v1">
+         <ns01:result>
+            <ns0:results xmlns:ns0="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+               <ns0:status>
+                  <ns0:status>error</ns0:status>
+                  <ns0:http-status-code>500</ns0:http-status-code>
+                  <ns0:summary>A validation error has occured</ns0:summary>
+                  <ns0:description>One or more required fields were missing or failde to meet the validation criteria. Fields: businessId, externalId, sourceSystem</ns0:description>
+                  <ns0:timestamp>2017-09-14T12:34:56</ns0:timestamp>
+               </ns0:status>
+            </ns0:results>
+         </ns01:result>
+      </ns01:sendAccountResponse>
+   </soap:Body>
+</soap:Envelope>

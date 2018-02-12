@@ -1,0 +1,385 @@
+description: Lead request object
+
+properties:
+  lead-request:
+    type: object
+    properties:
+      lead:
+        type: object
+        properties:
+          ExternalId:
+            type: string
+            required: true
+            maxLength: 80
+          IsTestData:
+            type: boolean
+            required: false
+          BusinessId:
+            type: string
+            required: true
+            maxLength: 255
+          CustomerType:
+            type: string
+            required: true
+            maxLength: 255
+          CrmId:
+            type: number
+            required: false
+            maximum: 9999999999
+          Salutation:
+            type: string
+            required: false
+            maxLength: 255
+          FirstName:
+            type: string
+            required: false
+            maxLength: 40
+          LastName:
+            type: string
+            required: false
+            maxLength: 80
+          CompanyName:
+            type: string
+            required: false
+            maxLength: 255
+          BirthDate:
+            type: date-only
+            required: false
+          EmailAddress:
+            type: string
+            required: true
+            maxLength: 80
+          EmailAddressValid:
+            type: boolean
+            required: false
+          EmailAddressValidatedBy:
+            type: string
+            required: false
+            maxLength: 255
+          HomePhone:
+            type: string
+            required: false
+            maxLength: 40
+          HomePhoneValid:
+            type: boolean
+            required: false
+          HomePhoneValidatedBy:
+            type: string
+            required: false
+            maxLength: 255
+          MobilePhone:
+            type: string
+            required: false
+            maxLength: 40
+          MobilePhoneValid:
+            type: boolean
+            required: false
+          MobilePhoneValidatedBy:
+            type: string
+            required: false
+            maxLength: 255
+          WorkPhone:
+            type: string
+            required: false
+            maxLength: 40
+          WorkPhoneValid:
+            type: boolean
+            required: false
+          WorkPhoneValidatedBy:
+            type: string
+            required: false
+            maxLength: 255
+          StandardAddressStreet:
+            type: string
+            required: false
+            maxLength: 255
+          StandardAddressCity:
+            type: string
+            required: false
+            maxLength: 40
+          StandardAddressState:
+            type: string
+            required: false
+            maxLength: 20
+          StandardAddressCountry:
+            type: string
+            required: false
+            maxLength: 40
+          StandardAddressPostcode:
+            type: string
+            required: false
+            maxLength: 10
+          StandardAddressDPID:
+            type: string
+            required: false
+            maxLength: 20
+          StandardAddressValid:
+            type: boolean
+            required: false
+          StandardAddressValidatedBy:
+            type: string
+            required: false
+            maxLength: 255
+          PostOptIn:
+            type: boolean
+            required: true
+          SMSOptIn:
+            type: boolean
+            required: true
+          PhoneOptIn:
+            type: boolean
+            required: true
+          EmailOptIn:
+            type: boolean
+            required: true
+          ExternalLeadId:
+            type: string
+            required: false
+            maxLength: 40
+          RecordType:
+            type: string
+            required: true
+            maxLength: 255
+          LeadForm:
+            type: string
+            required: true
+            maxLength: 255
+          RecordSubtype:
+            type: string
+            required: false
+            maxLength: 255
+          DealerID: 
+            type: number
+            required: false
+            maximum: 9999999999
+          LegacyDealerCode:
+            type: string
+            required: false
+            maxLength: 20
+          ExternalDealerID:
+            type: string
+            required: false
+            maxLength: 80
+          Department:
+            type: string
+            required: true
+            maxLength: 255
+          CampaignName:
+            type: string
+            required: false
+            maxLength: 80
+          LeadDateTime:
+            type: datetime-only
+            required: true
+          DeliveryMethod:
+            type: string
+            required: false
+            maxLength: 255
+          ClientSource:
+            type: string
+            required: true
+            maxLength: 255
+          ClientCookieID:
+            type: string
+            required: false
+            maxLength: 255
+          ThirdPartyVehicleReferenceId:
+            type: string
+            required: false
+            maxLength: 50
+          SourceSystem:
+            type: string
+            required: true
+            maxLength: 255
+          PurchaseType:
+            type: string
+            required: false
+            maxLength: 255
+          Purchase_Type_Description:
+            type: string
+            required: false
+            maxLength: 200
+          PurchaseIntention:
+            type: string
+            required: false
+            maxLength: 255
+          PurchaseDate:
+            type: date-only
+            required: false
+          FleetManagement:
+            type: boolean
+            required: false
+          FleetSize: 
+            type: string
+            required: false
+            maxLength: 255
+          FinanceAmount:
+            type: number
+            required: false
+            maximum: 9999999999
+          FinanceTerm:
+            type: string
+            required: false
+            maxLength: 255
+          FinanceInterestRate:
+            type: number
+            required: false
+            maximum: 9999999999.99
+          PreferredTestDriveDate:
+            type: date-only
+            required: false
+          PreferredTestDriveTime:
+            type: string
+            required: false
+            maxLength: 255
+          Tags:
+            type: string
+            required: false
+            maxLength: 2000
+          Comments:
+            type: string
+            required: false
+            maxLength: 10000
+          VIN:
+            type: string
+            required: false
+            maxLength: 35
+          RegistrationNumber:
+            type: string
+            required: false
+            maxLength: 10
+          OdometerReading:
+            type: number
+            required: false
+            maximum: 9999999999
+          Make: 
+            type: string
+            required: true
+            maxLength: 255
+          ModelsOfInterest:
+            type: string
+            required: false
+            maxLength: 255
+          ModelYear:
+            type: string
+            required: false
+            maxLength: 4
+          ModelFamily:
+            type: string
+            required: false
+            maxLength: 200
+          Variant:
+            type: string
+            required: false
+            maxLength: 255
+          ModelVariantDescription:
+            type: string
+            required: false
+            maxLength: 200
+          ModelDescription:
+            type: string
+            required: false
+            maxLength: 200
+          Series:
+            type: string
+            required: false
+            maxLength: 255
+          BodyType:
+            type: string
+            required: false
+            maxLength: 255
+          EngineDescription:
+            type: string
+            required: false
+            maxLength: 255
+          Transmission:
+            type: string
+            required: false
+            maxLength: 255
+          FuelType:
+            type: string
+            required: false
+            maxLength: 255       
+          ExteriorColour:
+            type: string
+            required: false
+            maxLength: 255
+          Price:
+            type: number
+            required: false
+            maximum: 999999999999.99
+          URL:
+            type: string
+            required: false
+            maxLength: 255
+          ImageURL:
+            type: string
+            required: false
+            maxLength: 255
+          StockNumber:
+            type: string
+            required: false
+            maxLength: 10
+          TradeInAvailable:
+            type: boolean
+            required: false 
+          TradeInMake:
+            type: string
+            required: false
+            maxLength: 255
+          TradeInModel:
+            type: string
+            required: false
+            maxLength: 200
+          TradeInModelYear:
+            type: string
+            required: false
+            maxLength: 4
+          TradeInColour:
+            type: string
+            required: false
+            maxLength: 255
+          TradeInOdometerReading:
+            type: number
+            required: false
+            maximum: 9999999999
+          TradeInDetailsUrl:
+            type: string
+            required: false
+            maxLength: 255
+          TradeInVehicleCondition:
+            type: string
+            required: false
+            maxLength: 255
+          PartNumber:
+            type: string
+            required: false
+            maxLength: 255
+          DropOffTime:
+            type: string
+            required: false
+            maxLength: 255
+          PickUpTime:
+            type: string
+            required: false
+            maxLength: 255
+          ServiceDate:
+            type: date-only
+            required: false
+          PreviouslyServicedHere:
+            type: boolean
+            required: false
+          ServiceInterval:
+            type: string
+            required: false
+            maxLength: 255 
+          ServiceType:
+            type: string
+            required: false
+            maxLength: 255
+          TransportRequirements:
+            type: string
+            required: false
+            maxLength: 255
+#            
+#    

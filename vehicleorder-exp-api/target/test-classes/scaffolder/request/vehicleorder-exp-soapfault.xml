@@ -1,0 +1,37 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:inc="http://www.cloudhub.io/schemas/class/InchcapeVehicleOrderInterface_v1">
+  
+   <soapenv:Body>
+      <inc:sendVehicleOrder>
+         <inc:VehicleOrder>
+           
+            <inc:ExternalId>vehicleorde23423-001</inc:ExternalId>
+            <inc:ExternalCustomerId>5231</inc:ExternalCustomerId>
+            <inc:SourceSystem>VMS</inc:SourceSystem>
+            <inc:ExternalOrderId>VO-000000</inc:ExternalOrderId>
+            <inc:OrderNumber>1456</inc:OrderNumber>
+            <inc:OrderStatus>New</inc:OrderStatus>
+            <inc:OrderAmount>56000.00</inc:OrderAmount>
+            <inc:OrderBalance>50600.00</inc:OrderBalance>
+            <inc:DealerName>Trivett Classic BMW Service</inc:DealerName>
+            <inc:DealerEmailAddress>orders@trivettclassicbmwservice.com.au</inc:DealerEmailAddress>
+            <inc:ExternalVehicleId>27008</inc:ExternalVehicleId>
+            <inc:VIN>JZX12363F31145670</inc:VIN>
+            <inc:Make>Toyota</inc:Make>
+            <inc:ModelCode>WXFCK5U/P:AU</inc:ModelCode>
+			<inc:InteriorColourCode>20</inc:InteriorColourCode>
+			<inc:ExteriorColourCode>1X</inc:ExteriorColourCode>
+			<inc:ModelName>TRIBECA</inc:ModelName>
+			<inc:ModelVariant>3.6R PREMIUM</inc:ModelVariant>
+			<inc:ModelDescription>TRIBECA WAGON 3.6P 7 SEAT AUTO</inc:ModelDescription>
+			<inc:ModelYear>2017</inc:ModelYear>
+			<inc:InteriorColour>Black</inc:InteriorColour>
+			<inc:ExteriorColour>Black</inc:ExteriorColour>
+			<inc:Transmission>Manual</inc:Transmission>
+			<inc:FuelType>Diesel</inc:FuelType>
+			<inc:CylinderCount>8</inc:CylinderCount>
+			<inc:DocumentURL>www.google.com.au</inc:DocumentURL>
+			<inc:OrderURL>www.google.com.au</inc:OrderURL>
+         </inc:VehicleOrder>
+      </inc:sendVehicleOrder>
+   </soapenv:Body>
+</soapenv:Envelope>

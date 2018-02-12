@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mock="http://www.mulesoft.org/schema/mule/mock" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/mock/current/mule-mock.xsd">
+    <munit:config mock-connectors="false" mock-inbounds="false" doc:name="MUnit configuration"/>
+    <spring:beans>
+        <spring:import resource="classpath:lead-exp-api.xml"/>
+        <spring:import resource="classpath:globals.xml"/>
+    </spring:beans>
+    <http:request-config name="HTTP_Request_Configuration" protocol="HTTPS" host="${https.host}" port="${https.private.port}" basePath="${munit.path}" doc:name="HTTP Request Configuration">
+        <tls:context>
+            <tls:trust-store insecure="true"/>
+            <tls:key-store type="pkcs12" path="src/test/resources/certificate/localhost.jks" alias="${https.tls.alias}" keyPassword="${https.tls.key.password}" password="${https.tls.password}"/>
+        </tls:context>
+    </http:request-config>
+    <munit:test name="lead-exp-api-test-suite-lead-exp-api-mainTest" description="Test" >
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publishing Json Message to Lead Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publishing Json Message to Lead Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming Json Message from Lead Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming Json Message from Lead Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP Invoke System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP Invoke System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <munit:set payload="#[getResource('scaffolder/request/request.json').asString()]" mimeType="application/json" doc:name="Set Message"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/" method="POST" doc:name="HTTP">
+           <http:request-builder>
+                <http:header headerName="Content-Type" value="application/json"/>
+                <http:header headerName="Accept" value="application/json"/>
+                <http:header headerName="x-client-id" value="test"/>
+                <http:header headerName="x-client-secret" value="test"/>
+            </http:request-builder>
+        </http:request>
+        <set-payload value="#[getResource('scaffolder/request/request.json').asString()]" mimeType="application/json" doc:name="Set Payload"/>
+        <flow-ref name="lead-exp-api-processing-flow" doc:name="lead-exp-api-processing-flow"/>
+        <object-to-string-transformer doc:name="http response to string"/>
+        <munit:assert-true message="The HTTP Status code is not correct!" condition="#[messageInboundProperty('http.status').is(eq(201))]" doc:name="assert that - http.status eq 201"/>
+        <mock:verify-call messageProcessor=".*:.*" times="1" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP Invoke System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="lead-exp-api-test-suite-lead-exp-api-mainTest-403" description="Test" >
+        <munit:set payload="#[getResource('scaffolder/request/request.json').asString()]" mimeType="application/json" doc:name="Set Message"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/" method="POST" doc:name="HTTP">
+            <http:request-builder>
+                <http:header headerName="Content-Type" value="application/json"/>
+                <http:header headerName="Accept" value="application/json"/>
+                <http:header headerName="x-client-id" value="tset"/>
+                <http:header headerName="x-client-secret" value="test"/>
+            </http:request-builder>
+            <http:success-status-code-validator values="200..500"/>
+        </http:request>
+        <mock:verify-call messageProcessor=".*:.*" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Transform - Create Authentication Failure Message']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="lead-exp-api-test-suite-lead-exp-api-mainTest-404" description="Test" >
+        <munit:set payload="#[getResource('scaffolder/request/request.json').asString()]" mimeType="application/json" doc:name="Set Message"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/xyz" method="POST" doc:name="HTTP">
+            <http:request-builder>
+                <http:header headerName="Content-Type" value="application/json"/>
+                <http:header headerName="Accept" value="application/json"/>
+                <http:header headerName="x-client-id" value="test"/>
+                <http:header headerName="x-client-secret" value="test"/>
+            </http:request-builder>
+            <http:success-status-code-validator values="200..500"/>
+        </http:request>
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[404]" actualValue="#[message.inboundProperties['http.status']]" doc:name="Assert Equals"/>
+    </munit:test>
+    <munit:test name="lead-exp-api-test-suite-lead-exp-api-mainTest-405" description="Test" >
+        <munit:set payload="#[getResource('scaffolder/request/request.json').asString()]" mimeType="application/json" doc:name="Set Message"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/" method="OPTIONS" doc:name="HTTP">
+            <http:request-builder>
+                <http:header headerName="Content-Type" value="application/json"/>
+                <http:header headerName="Accept" value="application/json"/>
+                <http:header headerName="x-client-id" value="test"/>
+                <http:header headerName="x-client-secret" value="test"/>
+            </http:request-builder>
+            <http:success-status-code-validator values="200..500"/>
+        </http:request>
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[405]" actualValue="#[message.inboundProperties['http.status']]" doc:name="Assert Equals"/>
+    </munit:test>
+    <munit:test name="lead-exp-api-test-suite-lead-exp-api-mainTest-415" description="Test" >
+        <munit:set payload="#[getResource('scaffolder/request/request.json').asString()]" doc:name="Set Message" mimeType="application/json"/>
+        <http:request config-ref="HTTP_Request_Configuration" path="/" method="POST" doc:name="HTTP">
+            <http:request-builder>
+                <http:header headerName="Content-Type" value="application/xml"/>
+                <http:header headerName="Accept" value="application/xml"/>
+                <http:header headerName="x-client-id" value="test"/>
+                <http:header headerName="x-client-secret" value="test"/>
+            </http:request-builder>
+            <http:success-status-code-validator values="200..500"/>
+        </http:request>
+        <munit:assert-on-equals message="The response payload is not correct!" expectedValue="#[415]" actualValue="#[message.inboundProperties['http.status']]" doc:name="Assert Equals"/>
+    </munit:test>
+</mule>

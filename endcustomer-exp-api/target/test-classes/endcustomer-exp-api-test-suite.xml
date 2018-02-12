@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:mock="http://www.mulesoft.org/schema/mule/mock" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mock http://www.mulesoft.org/schema/mule/mock/current/mule-mock.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd">
+    <munit:config mock-connectors="false" mock-inbounds="false" name="munit" doc:name="MUnit configuration"/>
+    <spring:beans>
+        <spring:import resource="classpath:endcustomer-exp-api.xml"/>
+        <spring:import resource="classpath:globals.xml"/>
+    </spring:beans>
+    <http:request-config name="HTTP_Request_Configuration" host="localhost" port="8086" doc:name="HTTP Request Configuration"/>
+    <munit:test name="endcustomer-exp-api-test-suite-api-SuccessTest-customer-and-brand" description="Test">
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming Json Message from End Customer Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming Json Message from End Customer Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP - Invoke EndCustomer System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[getResource(&quot;scaffolder/response/success-response.json&quot;).asString()]" mimeType="application/json"/>
+        </mock:when>
+        <munit:set payload="#[getResource(&quot;scaffolder/request/endCustomerRequestCustomerAndBrand.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="${https.auth.client.id}"/>
+                <munit:inbound-property key="x-client-secret" value="${https.auth.client.secret}"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <set-payload value="#[getResource(&quot;scaffolder/request/endCustomerRequestCustomerAndBrand.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Payload"/>
+        <flow-ref name="endcustomer-exp-api-processing-flow" doc:name="endcustomer-exp-api-processing-flow"/>
+        <mock:verify-call messageProcessor=".*:.*" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="endcustomer-exp-api-test-suite-api-FailureTest" description="Test">
+        <munit:set payload="#[getResource(&quot;scaffolder/request/endCustomerErrorRequest.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="tset"/>
+                <munit:inbound-property key="x-client-secret" value="test"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <munit:assert-on-equals message="Status assertion failed!!" expectedValue="#[true]" actualValue="#[payload.contains('error')]" doc:name="Assert Equals"/>
+    </munit:test>
+    <munit:test name="endcustomer-exp-api-test-suite-api-SuccessTest" description="Test">
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming Json Message from End Customer Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming Json Message from End Customer Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP - Invoke EndCustomer System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[getResource(&quot;scaffolder/response/success-response.json&quot;).asString()]" mimeType="application/json"/>
+        </mock:when>
+        <munit:set payload="#[getResource(&quot;scaffolder/request/endCustomerRequest.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="${https.auth.client.id}"/>
+                <munit:inbound-property key="x-client-secret" value="${https.auth.client.secret}"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <set-payload value="#[getResource(&quot;scaffolder/request/endCustomerRequest.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Payload"/>
+        <flow-ref name="endcustomer-exp-api-processing-flow" doc:name="endcustomer-exp-api-processing-flow"/>
+        <mock:verify-call messageProcessor=".*:.*" times="1" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="endcustomer-exp-api-test-suite-api-SuccessTest-customer-and-externalids" description="Test">
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming Json Message from End Customer Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming Json Message from End Customer Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP - Invoke EndCustomer System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[getResource(&quot;scaffolder/response/success-response.json&quot;).asString()]" mimeType="application/json"/>
+        </mock:when>
+        <munit:set payload="#[getResource(&quot;scaffolder/request/endCustomerRequestCustomerAndExternalIds.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="${https.auth.client.id}"/>
+                <munit:inbound-property key="x-client-secret" value="${https.auth.client.secret}"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <set-payload value="#[getResource(&quot;scaffolder/request/endCustomerRequestCustomerAndExternalIds.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Payload"/>
+        <flow-ref name="endcustomer-exp-api-processing-flow" doc:name="endcustomer-exp-api-processing-flow"/>
+        <mock:verify-call messageProcessor=".*:.*" times="1" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="endcustomer-exp-api-test-suite-api-SuccessTest-customer" description="Test">
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Publish Xml Payload to Anypoint MQ - EndCustomer  Exchange']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor="mule:sub-flow" doc:name="Mock leh-common-messaging-request">
+            <mock:with-attributes>
+                <mock:with-attribute name="name" whereValue="#[matchContains('leh-common-messaging-request-preprocess-subflow')]"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock Consuming Json Message from End Customer Queue">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Consuming Json Message from End Customer Queue']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[]"/>
+        </mock:when>
+        <mock:when messageProcessor=".*:.*" doc:name="Mock HTTP - Invoke EndCustomer System API">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+            <mock:then-return payload="#[getResource(&quot;scaffolder/response/success-response.json&quot;).asString()]" mimeType="application/json"/>
+        </mock:when>
+        <munit:set payload="#[getResource(&quot;scaffolder/request/EndCustomerRequestCustomer.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="${https.auth.client.id}"/>
+                <munit:inbound-property key="x-client-secret" value="${https.auth.client.secret}"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <set-payload value="#[getResource(&quot;scaffolder/request/EndCustomerRequestCustomer.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Payload"/>
+        <flow-ref name="endcustomer-exp-api-processing-flow" doc:name="endcustomer-exp-api-processing-flow"/>
+        <mock:verify-call messageProcessor=".*:.*" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['HTTP - Invoke EndCustomer System API']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+    <munit:test name="endcustomer-exp-api-test-suite-api-main-soapfault" description="Test">
+        <munit:set payload="#[getResource(&quot;scaffolder/request/endCustomersoapfailure.xml&quot;).asString()]" mimeType="application/xml" doc:name="Set Message">
+            <munit:inbound-properties>
+                <munit:inbound-property key="x-client-id" value="test"/>
+                <munit:inbound-property key="x-client-secret" value="test"/>
+            </munit:inbound-properties>
+        </munit:set>
+        <flow-ref name="api-main" doc:name="Flow-ref to api-main"/>
+        <mock:verify-call messageProcessor=".*:.*" doc:name="Verify Call">
+            <mock:with-attributes>
+                <mock:with-attribute name="doc:name" whereValue="#['Transformation - Create Success/Failure Response']"/>
+            </mock:with-attributes>
+        </mock:verify-call>
+    </munit:test>
+</mule>

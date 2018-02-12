@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Web Services API : InchcapeAccountInterface_v1
+-->
+<definitions targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeAccountInterface_v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.cloudhub.io/schemas/class/InchcapeAccountInterface_v1" xmlns:InboundIntegrationResponse="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+ <types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface">
+      <xsd:complexType name="InboundIntegrationResponse">
+	   <xsd:sequence>
+	  <xsd:element name="result" nillable="true">
+	    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="status" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="http-status-code" minOccurs="1" type="xsd:string" nillable="false"/>
+          <xsd:element name="summary" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="description" minOccurs="0" type="xsd:string" nillable="true"/>
+          <xsd:element name="request-timestamp" minOccurs="1" type="xsd:dateTime" nillable="false"/>
+        </xsd:sequence>
+      </xsd:complexType>
+	   </xsd:element>
+	    </xsd:sequence>
+	    </xsd:complexType>
+    </xsd:schema>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="http://www.cloudhub.io/schemas/class/InchcapeAccountInterface_v1">
+   <xsd:import namespace="http://www.cloudhub.io/schemas/class/GenericWebServiceInterface"/>
+   <!-- Defining character length restricted strings -->
+   <xsd:simpleType name="LimitedString_10">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LimitedString_20">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LimitedString_40">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="40"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LimitedString_80">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="80"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LimitedString_255">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="255"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+   <xsd:complexType name="Account">
+    <xsd:sequence>
+      <xsd:element name="ExternalId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+      <xsd:element name="RecordType" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+      <xsd:element name="ExternalEntityId" minOccurs="1" type="tns:LimitedString_80" nillable="false"/>
+      <xsd:element name="SourceSystem" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+      <xsd:element name="BusinessId" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+      <xsd:element name="AccountStatus" minOccurs="1" type="tns:LimitedString_255" nillable="false"/>
+  	  <xsd:element name="Salutation" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+  	  <xsd:element name="FirstName" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+      <xsd:element name="LastName" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+      <xsd:element name="AccountName" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+  	  <xsd:element name="StandardAddressStreet" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+  	  <xsd:element name="StandardAddressCity" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+  	  <xsd:element name="StandardAddressPostcode" minOccurs="0" type="tns:LimitedString_10" nillable="true"/>
+  	  <xsd:element name="StandardAddressState" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+  	  <xsd:element name="StandardAddressCountry" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+  	  <xsd:element name="StandardAddressDPID" minOccurs="0" type="tns:LimitedString_20" nillable="true"/>
+      <xsd:element name="StandardAddressValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+      <xsd:element name="StandardAddressValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+  	  <xsd:element name="EmailAddress" minOccurs="0" type="tns:LimitedString_80" nillable="true"/>
+  	  <xsd:element name="EmailAddressValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+  	  <xsd:element name="EmailAddressValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+  	  <xsd:element name="BusinessPhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+  	  <xsd:element name="BusinessPhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+  	  <xsd:element name="BusinessPhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+  	  <xsd:element name="MobilePhone" minOccurs="0" type="tns:LimitedString_40" nillable="true"/>
+  	  <xsd:element name="MobilePhoneValid" minOccurs="0" type="xsd:boolean" nillable="true"/>
+	   <xsd:element name="MobilePhoneValidatedBy" minOccurs="0" type="tns:LimitedString_255" nillable="true"/>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="sendAccount">
+    <xsd:complexType>
+     <xsd:sequence>
+      <xsd:element name="Account" type="tns:Account" nillable="false"/>
+     </xsd:sequence>
+    </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="sendAccountResponse" type="InboundIntegrationResponse:InboundIntegrationResponse"/>
+    
+   
+  </xsd:schema>
+ </types>
+ 
+ 
+ <!-- Operation Messages -->
+ <message name="sendAccountRequest">
+  <part element="tns:sendAccount" name="parameters"/>
+ </message>
+ <message name="sendAccountResponse">
+  <part element="tns:sendAccountResponse" name="parameters"/>
+ </message>
+
+ 
+ <portType name="InchcapeAccountInterface_v1PortType">
+  <operation name="sendAccount">
+   <input message="tns:sendAccountRequest"/>
+   <output message="tns:sendAccountResponse"/>
+  
+    </operation>
+  
+ </portType>
+ 
+ <binding name="InchcapeAccountInterface_v1Binding" type="tns:InchcapeAccountInterface_v1PortType">
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="sendAccount">
+   <soap:operation soapAction=""/>
+   <input>
+    <soap:body use="literal" parts="parameters"/>
+   </input>
+   <output>
+    <soap:body use="literal"/>
+   </output>
+   
+    </operation>
+  
+ </binding>
+ <service name="InchcapeAccountInterface_v1Service">
+  <documentation></documentation>
+  <port binding="tns:InchcapeAccountInterface_v1Binding" name="InchcapeAccountInterface_v1">
+   <soap:address location="https://localhost:8088/InchcapeAccountInterface_v1"/>
+  </port>
+ </service>
+</definitions>
